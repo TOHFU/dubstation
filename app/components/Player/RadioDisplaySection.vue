@@ -1,7 +1,15 @@
 <template>
   <div class="radio-display-section">
-    <div class="radio-display-section__status">
-      <img :src="liveBroadcastingIcon" alt="live" class="radio-display-section__status-icon" />
+    <div
+      class="radio-display-section__status"
+      :class="{ 'radio-display-section__status--active': isStationSelected }"
+    >
+      <img
+        v-if="isStationSelected"
+        :src="liveBroadcastingIcon"
+        alt="live"
+        class="radio-display-section__status-icon"
+      />
       <span>LIVE BROADCASTING</span>
     </div>
     <div v-if="songName" class="radio-display-section__song">{{ songName }}</div>
@@ -29,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, defineEmits } from 'vue'
+import { computed, ref, watch, defineEmits } from 'vue'
 import ControlKnob from './ControlKnob.vue'
 import liveBroadcastingIcon from '../../assets/icons/live-broadcasting-icon.svg'
 
@@ -42,6 +50,10 @@ const props = defineProps<{
 const emit = defineEmits(['update:modelValue', 'change-station'])
 
 const volume = ref(props.modelValue ?? 50)
+const isStationSelected = computed(() => {
+  const name = props.stationName?.trim() ?? ''
+  return name !== '' && name !== 'SELECT STATION'
+})
 watch(() => props.modelValue, v => { if (v !== undefined) volume.value = v })
 watch(volume, v => emit('update:modelValue', v))
 </script>
@@ -85,6 +97,9 @@ watch(volume, v => emit('update:modelValue', v))
   gap: 8px;
   margin-bottom: 8px;
 }
+.radio-display-section__status--active {
+  color: #292524;
+}
 .radio-display-section__status-icon {
   width: 18px;
   height: 18px;
@@ -111,7 +126,7 @@ watch(volume, v => emit('update:modelValue', v))
   background: #F5F5E6;
   border: none;
   border-radius: 9999px;
-  color: #A6A67A;
+  color: #292524;
   font-size: 14px;
   font-weight: 700;
   padding: 2px 16px;
