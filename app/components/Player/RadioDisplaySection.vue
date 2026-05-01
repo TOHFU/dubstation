@@ -1,18 +1,20 @@
 <template>
   <div class="radio-display-section">
-    <div
+    <button
       class="radio-display-section__status"
-      :class="{ 'radio-display-section__status--active': isStationSelected }"
+      :class="{ 'radio-display-section__status--active': props.isPlaying }"
+      type="button"
+      @click="$emit('toggle-live')"
     >
       <img
-        v-if="isStationSelected"
+        v-if="props.isPlaying"
         :src="liveBroadcastingIcon"
         alt="live"
         class="radio-display-section__status-icon"
       />
       <span v-else class="radio-display-section__status-dot" aria-hidden="true" />
       <span>LIVE BROADCASTING</span>
-    </div>
+    </button>
     <div v-if="songName" class="radio-display-section__song">{{ songName }}</div>
     <div v-if="artistName" class="radio-display-section__artist">{{ artistName }}</div>
     <button
@@ -38,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, defineEmits } from 'vue'
+import { ref, watch, defineEmits } from 'vue'
 import ControlKnob from './ControlKnob.vue'
 import liveBroadcastingIcon from '../../assets/icons/live-broadcasting-icon.svg'
 
@@ -47,14 +49,11 @@ const props = defineProps<{
   artistName?: string
   stationName?: string
   modelValue?: number
+  isPlaying?: boolean
 }>()
-const emit = defineEmits(['update:modelValue', 'change-station'])
+const emit = defineEmits(['update:modelValue', 'change-station', 'toggle-live'])
 
 const volume = ref(props.modelValue ?? 50)
-const isStationSelected = computed(() => {
-  const name = props.stationName?.trim() ?? ''
-  return name !== '' && name !== 'SELECT STATION'
-})
 watch(() => props.modelValue, v => { if (v !== undefined) volume.value = v })
 watch(volume, v => emit('update:modelValue', v))
 </script>
@@ -88,6 +87,7 @@ watch(volume, v => emit('update:modelValue', v))
   }
 .radio-display-section__status {
   background: #F5F5E6;
+  border: none;
   border-radius: 9999px;
   color: #A6A67A;
   font-size: 12px;
@@ -97,6 +97,7 @@ watch(volume, v => emit('update:modelValue', v))
   align-items: center;
   gap: 8px;
   margin-bottom: 8px;
+  cursor: pointer;
 }
 .radio-display-section__status--active {
   color: #292524;

@@ -95,6 +95,40 @@ export const useAppStore = defineStore('app', {
       this.playbackState = 'idle'
       this.clearMetadata()
     },
+    pausePlayback(audio: HTMLAudioElement | null) {
+      if (!audio) {
+        return
+      }
+
+      audio.pause()
+
+      if (this.playbackState === 'playing') {
+        this.playbackState = 'idle'
+      }
+    },
+    async resumePlayback(audio: HTMLAudioElement | null) {
+      if (!audio || !this.selectedStationId) {
+        return
+      }
+
+      if (!audio.src) {
+        await this.startPlayback(audio)
+        return
+      }
+
+      this.playbackState = 'loading'
+
+      try {
+        await audio.play()
+        this.playbackState = 'playing'
+        await this.fetchMetadata()
+      }
+      catch (error) {
+        this.playbackState = 'error'
+        this.errorMessage = error instanceof Error ? error.message : 'ストリーム再生の再開に失敗しました。'
+        this.clearMetadata()
+      }
+    },
     async retryPlayback(audio: HTMLAudioElement | null) {
       await this.startPlayback(audio)
     },
