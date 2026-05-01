@@ -24,7 +24,7 @@ if (typeof window !== 'undefined') {
 }
 
 
-import { dubStationTheme } from '../app/plugins/vuetify.theme';
+import { dubStationTheme } from '../app/theme/vuetify.theme';
 const vuetify = createVuetify({
   components,
   directives,

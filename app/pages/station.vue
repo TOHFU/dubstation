@@ -78,10 +78,6 @@ function onSelectStation(stationId: string) {
 function goBack() {
   void navigateTo('/')
 }
-
-definePageMeta({
-  pageTransition: { name: 'station-slide', mode: 'out-in' },
-})
 </script>
 
 <style scoped>
