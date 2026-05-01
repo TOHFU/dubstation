@@ -39,9 +39,27 @@
         <div class="effect-buttons-section">
           <p class="effect-buttons-section__label">One Shot FX</p>
           <div class="effect-buttons">
-            <EffectButton color="siren" @play="onPlaySiren">SIREN</EffectButton>
-            <EffectButton color="beam1" @play="onPlayBeam1">BEAM 1</EffectButton>
-            <EffectButton color="beam2" @play="onPlayBeam2">BEAM 2</EffectButton>
+            <EffectButton
+              color="siren"
+              @press-start="onStartSiren"
+              @press-end="onStopSiren"
+            >
+              SIREN
+            </EffectButton>
+            <EffectButton
+              color="beam1"
+              @press-start="onStartBeam1"
+              @press-end="onStopBeam1"
+            >
+              BEAM 1
+            </EffectButton>
+            <EffectButton
+              color="beam2"
+              @press-start="onStartBeam2"
+              @press-end="onStopBeam2"
+            >
+              BEAM 2
+            </EffectButton>
           </div>
         </div>
 
@@ -137,20 +155,88 @@ const delayAmount = ref(0)
 const reverbEnabled = ref(false)
 const reverbAmount = ref(0)
 
+type OneShotFxKey = 'siren' | 'beam1' | 'beam2'
+
+const ONE_SHOT_FX_SOURCES: Record<OneShotFxKey, string> = {
+  siren: '/assets/soundfx/siren.mp3',
+  beam1: '/assets/soundfx/beam1.mp3',
+  beam2: '/assets/soundfx/beam2.mp3',
+}
+
+const oneShotFxMap = new Map<OneShotFxKey, HTMLAudioElement>()
+
+function getOneShotFxAudio(key: OneShotFxKey): HTMLAudioElement {
+  const existing = oneShotFxMap.get(key)
+  if (existing) {
+    return existing
+  }
+
+  const audio = new Audio(ONE_SHOT_FX_SOURCES[key])
+  audio.preload = 'auto'
+  audio.loop = true
+  oneShotFxMap.set(key, audio)
+
+  return audio
+}
+
+async function startOneShotFx(key: OneShotFxKey) {
+  const audio = getOneShotFxAudio(key)
+  if (!audio.paused) {
+    return
+  }
+
+  audio.currentTime = 0
+
+  try {
+    await audio.play()
+  }
+  catch {
+    // ユーザー操作直後以外ではブラウザに再生をブロックされる場合がある。
+  }
+}
+
+function stopOneShotFx(key: OneShotFxKey) {
+  const audio = oneShotFxMap.get(key)
+  if (!audio) {
+    return
+  }
+
+  audio.pause()
+  audio.currentTime = 0
+}
+
+function stopAllOneShotFx() {
+  stopOneShotFx('siren')
+  stopOneShotFx('beam1')
+  stopOneShotFx('beam2')
+}
+
 function onChangeStation() {
   void navigateTo('/station')
 }
 
-function onPlaySiren() {
-  // TODO: サイレン効果音再生ロジック
+function onStartSiren() {
+  void startOneShotFx('siren')
 }
 
-function onPlayBeam1() {
-  // TODO: ビーム1効果音再生ロジック
+function onStopSiren() {
+  stopOneShotFx('siren')
 }
 
-function onPlayBeam2() {
-  // TODO: ビーム2効果音再生ロジック
+function onStartBeam1() {
+  void startOneShotFx('beam1')
+}
+
+function onStopBeam1() {
+  stopOneShotFx('beam1')
+}
+
+function onStartBeam2() {
+  void startOneShotFx('beam2')
+}
+
+function onStopBeam2() {
+  stopOneShotFx('beam2')
 }
 
 function onRetry() {
@@ -158,6 +244,7 @@ function onRetry() {
 }
 
 function onHome() {
+  stopAllOneShotFx()
   appStore.clearError()
   appStore.stopPlayback(audioElement.value)
 }
@@ -167,6 +254,7 @@ function onAudioError() {
 }
 
 function onLoadingBack() {
+  stopAllOneShotFx()
   appStore.stopPlayback(audioElement.value)
   appStore.clearSelectedStation()
   appStore.clearError()
@@ -238,6 +326,7 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
+  stopAllOneShotFx()
   stopMetadataPolling()
   appStore.stopPlayback(audioElement.value)
   audioEffects.dispose()
