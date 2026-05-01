@@ -11,36 +11,37 @@
       <div class="station-list-item__title">{{ station.name }}</div>
       <div class="station-list-item__about">{{ station.about }}</div>
     </div>
-    <div class="station-list-item__right-icon">
-      <img :src="dummyRightIcon" alt="right icon" />
-    </div>
+    <button class="station-list-item__right-icon" type="button" aria-label="Select station">
+      <img :src="dummyRightIcon" alt="" />
+    </button>
   </div>
 </template>
 <style scoped>
 .station-list-item {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  background: #FDFCF5;
+  justify-content: space-between;
+  background: #FFFFFF;
   border-radius: 32px;
-  box-shadow: 0px 2px 8px 0px rgba(67, 56, 20, 0.08);
-  padding: 20px 24px;
-  margin-bottom: 16px;
+  padding: 24px;
   cursor: pointer;
   transition: box-shadow 0.2s, border 0.2s;
   border: 2px solid transparent;
+  min-height: 116px;
+  box-sizing: border-box;
 }
 .station-list-item--selected {
   border: 2px solid #606042;
-  box-shadow: 0px 4px 16px 0px rgba(67, 56, 20, 0.16);
+  box-shadow: 0px 4px 20px 0px rgba(67, 56, 20, 0.12), 0px 0px 0px 4px rgba(230, 229, 191, 0.3);
 }
 .station-list-item__thumbnail {
-  flex: 0 0 48px;
-  width: 48px;
-  height: 48px;
-  margin-right: 20px;
-  border-radius: 16px;
+  flex: 0 0 50px;
+  width: 50px;
+  height: 64px;
+  border-radius: 32px;
   overflow: hidden;
-  background: #E0E0E0;
+  background: #E0DFD5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,42 +50,45 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 .station-list-item__content {
   flex: 1 1 auto;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: 16px;
 }
 .station-list-item__title {
-  font-family: 'Noto Sans JP', 'Quicksand', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  color: #1C1917;
-  margin-bottom: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #33312E;
 }
 .station-list-item__about {
-  font-family: 'Noto Sans JP', 'Quicksand', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
   font-weight: 400;
-  font-size: 14px;
-  color: #606042;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.04em;
+  color: #66635F;
 }
 .station-list-item__right-icon {
-  flex: 0 0 24px;
-  width: 24px;
-  height: 24px;
-  margin-left: 20px;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 .station-list-item__right-icon img {
-  width: 100%;
-  height: 100%;
+  display: block;
 }
 </style>
 <script setup lang="ts">
@@ -92,7 +96,11 @@ import dummyThumbnail from '../../assets/icons/dummy-thumbnail.svg'
 import dummyRightIcon from '../../assets/icons/dummy-right-icon.svg'
 
 defineProps<{
-  station: { id: string; name: string; about: string },
+  station: { id: string; name: string; about: string }
   selected?: boolean
+}>()
+
+defineEmits<{
+  select: []
 }>()
 </script>
