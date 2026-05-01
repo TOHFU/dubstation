@@ -10,6 +10,7 @@
         alt="live"
         class="radio-display-section__status-icon"
       />
+      <span v-else class="radio-display-section__status-dot" aria-hidden="true" />
       <span>LIVE BROADCASTING</span>
     </div>
     <div v-if="songName" class="radio-display-section__song">{{ songName }}</div>
@@ -103,6 +104,13 @@ watch(volume, v => emit('update:modelValue', v))
 .radio-display-section__status-icon {
   width: 18px;
   height: 18px;
+  display: inline-block;
+}
+.radio-display-section__status-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #A6A67A;
   display: inline-block;
 }
 .radio-display-section__song {
