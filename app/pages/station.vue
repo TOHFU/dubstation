@@ -9,7 +9,9 @@
           aria-label="Back to player"
           @click="goBack"
         >
-          <img :src="backIcon" alt="" width="24" height="24" />
+          <span class="material-symbols-rounded station-page__back-icon" aria-hidden="true">
+            arrow_back
+          </span>
         </button>
         <h1 class="station-page__title">Select Station</h1>
         <!-- 右側スペーサー(バランス用) -->
@@ -40,11 +42,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import StationList from '../components/Station/StationList.vue'
-import backIconSrc from '../assets/icons/dummy-right-icon.svg'
 import { useAppStore } from '../stores/app'
-
-// バック用アイコン(右矢印を左向きに)
-const backIcon = backIconSrc
 
 const appStore = useAppStore()
 
@@ -101,9 +99,9 @@ function goBack() {
   flex-shrink: 0;
 }
 
-.station-page__back-button img {
-  display: block;
-  transform: rotate(180deg);
+.station-page__back-icon {
+  font-size: 24px;
+  line-height: 1;
 }
 
 .station-page__title {

@@ -47,5 +47,4 @@ UIでのエフェクト操作（フェーダー、つまみ）。
 | -------------------------- | ------------------------------------------------------ | ------------- |
 | Radio FIP Reggae           | https://stream.radiofrance.fr/fipreggae/fipreggae.m3u8 | 高音質HLS形式 |
 | SomaFM: Heavyweight Reggae | https://ice1.somafm.com/reggae-128-mp3                 |               |
-| Radio Art: Roots Reggae    | https://live.radioart.com/fRoots_reggae.mp3            |               |
 | NPO FunX Reggae            | https://icecast.omroep.nl/funx-reggae-bb-mp3           |               |
