@@ -23,7 +23,7 @@
         <!-- セクションヘッダー -->
         <div class="station-page__section-header">
           <h2 class="station-page__section-title">All Stations</h2>
-          <span class="station-page__section-meta">24 Online</span>
+          <span class="station-page__section-meta">{{ onlineCountText }}</span>
         </div>
 
         <!-- ステーションリスト -->
@@ -38,44 +38,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
 import StationList from '../components/Station/StationList.vue'
 import backIconSrc from '../assets/icons/dummy-right-icon.svg'
+import { useAppStore } from '../stores/app'
 
 // バック用アイコン(右矢印を左向きに)
 const backIcon = backIconSrc
 
-const selectedStationId = ref<string | undefined>(undefined)
+const appStore = useAppStore()
 
-const stations = ref([
-  {
-    id: 'dub-london',
-    name: 'Dub London',
-    about: 'The urban sound of UK dub and jungle influences.',
-  },
-  {
-    id: 'roots-fm',
-    name: 'Roots FM',
-    about: 'Authentic island rhythms and heavy low-end.',
-  },
-  {
-    id: 'kingston-vibes',
-    name: 'Kingston Vibes',
-    about: 'Jamaican classics and new school dub.',
-  },
-  {
-    id: 'dubwise-japan',
-    name: 'Dubwise Japan',
-    about: 'Japanese roots and dub from the land of the rising sun.',
-  },
-])
+const stations = computed(() => appStore.stations)
+const selectedStationId = computed(() => appStore.selectedStationId)
+const onlineCountText = computed(() => `${stations.value.length} Online`)
 
 function onSelectStation(stationId: string) {
-  selectedStationId.value = stationId
-  void navigateTo('/')
+  appStore.selectStation(stationId)
+  void navigateTo('/?autoplay=1')
 }
 
 function goBack() {
+  if (appStore.selectedStationId) {
+    void navigateTo('/?autoplay=1')
+    return
+  }
+
   void navigateTo('/')
 }
 </script>

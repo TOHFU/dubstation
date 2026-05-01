@@ -48,7 +48,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 196px 16px 0 16px;
+  padding: 0 16px;
   width: 100%;
 }
 .record-anim {
