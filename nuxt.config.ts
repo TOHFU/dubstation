@@ -17,7 +17,7 @@ export default defineNuxtConfig({
       link: [
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap',
+          href: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;900&family=Quicksand:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap',
         },
       ],
     },
