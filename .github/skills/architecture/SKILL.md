@@ -43,9 +43,9 @@ UIでのエフェクト操作（フェーダー、つまみ）。
 
 以下のラジオ局を表示させる。開発後に、適宜追加できるようにする。
 
-| ラジオ局名 | URL | 備考 |
-| --- | --- | --- |
-| Radio FIP Reggae | https://stream.radiofrance.fr/fipreggae/fipreggae.m3u8 | 高音質HLS形式 |
-| Reggae141 | http://149.56.147.197:8054/stream | Icecast形式 (MP3) |
-| Surf Roots Radio | https://secure.citrusstack.com/proxy/resinmusic?mp=/stream | HTTPS対応MP3 |
-| UK Roots FM | http://uk1.internet-radio.com:8010/live | Icecast形式 (MP3) |
+| ラジオ局名                 | URL                                                    | 備考          |
+| -------------------------- | ------------------------------------------------------ | ------------- |
+| Radio FIP Reggae           | https://stream.radiofrance.fr/fipreggae/fipreggae.m3u8 | 高音質HLS形式 |
+| SomaFM: Heavyweight Reggae | https://ice1.somafm.com/reggae-128-mp3                 |               |
+| Radio Art: Roots Reggae    | https://live.radioart.com/fRoots_reggae.mp3            |               |
+| NPO FunX Reggae            | https://icecast.omroep.nl/funx-reggae-bb-mp3           |               |
