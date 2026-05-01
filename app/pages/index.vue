@@ -51,17 +51,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import AppBar from '~/components/Common/AppBar.vue'
-import ErrorDialog from '~/components/Common/ErrorDialog.vue'
-import LoadingSpinner from '~/components/Common/LoadingSpinner.vue'
-import RadioDisplaySection from '~/components/Player/RadioDisplaySection.vue'
-import EffectsPanel from '~/components/Player/EffectsPanel.vue'
-import EffectButton from '~/components/Player/EffectButton.vue'
+import { ref, watch } from 'vue'
+import AppBar from '../components/Common/AppBar.vue'
+import ErrorDialog from '../components/Common/ErrorDialog.vue'
+import LoadingSpinner from '../components/Common/LoadingSpinner.vue'
+import RadioDisplaySection from '../components/Player/RadioDisplaySection.vue'
+import EffectsPanel from '../components/Player/EffectsPanel.vue'
+import EffectButton from '../components/Player/EffectButton.vue'
+
+const props = withDefaults(defineProps<{
+  loading?: boolean
+  error?: boolean
+}>(), {
+  loading: false,
+  error: false,
+})
 
 // ローディング / エラー状態
-const isLoading = ref(false)
-const showError = ref(false)
+const isLoading = ref(props.loading)
+const showError = ref(props.error)
+
+watch(() => props.loading, (value) => {
+  isLoading.value = value
+})
+watch(() => props.error, (value) => {
+  showError.value = value
+})
 
 // ラジオ情報
 const songName = ref('ROOTS REVIVAL')
