@@ -2,7 +2,7 @@
   <v-dialog v-model="modelValue" persistent max-width="360">
     <v-card class="error-card" color="#FDFCF5">
       <div class="error-icon-wrapper">
-        <img src="/app/assets/icons/icon-error.svg" alt="エラー" class="error-icon" />
+        <img :src="iconError" alt="エラー" class="error-icon" />
       </div>
       <div class="error-title">Oops! Frequency Lost</div>
       <div class="error-message">We couldn't connect to the broadcast stream.<br>Check your internet connection or try refreshing the signal.</div>
@@ -17,6 +17,8 @@
 <script setup lang="ts">
 import PrimaryButton from './PrimaryButton.vue'
 import SecondaryButton from './SecondaryButton.vue'
+import iconError from '../../assets/icons/icon-error.svg'
+
 const modelValue = defineModel<boolean>({ required: true })
 </script>
 

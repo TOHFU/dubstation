@@ -1,53 +1,150 @@
 <template>
-  <div class="h-screen flex flex-col bg-[#FDFCF5]">
-    <AppBar>
-      <span class="text-lg font-bold">DUB STATION</span>
-    </AppBar>
-    <div class="flex-1 flex flex-col items-center justify-center px-4">
-      <div class="mb-6 w-full flex flex-col items-center">
-        <div class="text-h5 font-bold mb-1">Station Name</div>
-        <div class="text-body-1 mb-1">Artist Name</div>
-        <div class="text-body-2 text-grey-darken-1 mb-4">Track Title</div>
-        <PrimaryButton class="mb-4 w-full max-w-xs" @click="onSelectStation"
-          >ラジオ局を選択</PrimaryButton
-        >
-      </div>
-      <div class="w-full max-w-xs mb-8">
-        <ControlKnob label="ボリューム" v-model="volume" :min="0" :max="100" />
-        <ControlKnob label="イコライザー" v-model="eq" :min="-12" :max="12" />
-        <ControlKnob label="ディレイ" v-model="delay" :min="0" :max="1000" :step="10" />
-        <ControlKnob label="リバーブ" v-model="reverb" :min="0" :max="100" />
-      </div>
-      <div class="flex gap-4 mb-8">
-        <EffectButton @play="onPlaySiren">サイレン</EffectButton>
-        <EffectButton @play="onPlayBeam1">ビーム1</EffectButton>
-        <EffectButton @play="onPlayBeam2">ビーム2</EffectButton>
-      </div>
+  <div class="page-root">
+    <!-- ローディング -->
+    <div v-if="isLoading" class="overlay">
+      <LoadingSpinner />
     </div>
+
+    <!-- エラーダイアログ -->
+    <ErrorDialog v-model="showError" @retry="onRetry" @home="onHome" />
+
+    <template v-if="!isLoading">
+      <!-- ヘッダー -->
+      <AppBar>DUB STATION</AppBar>
+
+      <!-- メインコンテンツ -->
+      <main class="main">
+        <!-- ラジオ表示セクション -->
+        <RadioDisplaySection
+          :song-name="songName"
+          :artist-name="artistName"
+          :station-name="stationName"
+          v-model="masterVolume"
+          @change-station="onChangeStation"
+        />
+
+        <!-- エフェクトパネル -->
+        <EffectsPanel
+          v-model:master-volume="masterVolume"
+          v-model:equalizer-enabled="equalizerEnabled"
+          v-model:equalizer-low="equalizerLow"
+          v-model:equalizer-mid="equalizerMid"
+          v-model:equalizer-high="equalizerHigh"
+          v-model:delay-enabled="delayEnabled"
+          v-model:delay-amount="delayAmount"
+          v-model:reverb-enabled="reverbEnabled"
+          v-model:reverb-amount="reverbAmount"
+        />
+
+        <!-- 効果音ボタン -->
+        <div class="effect-buttons-section">
+          <p class="effect-buttons-section__label">One Shot FX</p>
+          <div class="effect-buttons">
+            <EffectButton color="siren" @play="onPlaySiren">SIREN</EffectButton>
+            <EffectButton color="beam1" @play="onPlayBeam1">BEAM 1</EffectButton>
+            <EffectButton color="beam2" @play="onPlayBeam2">BEAM 2</EffectButton>
+          </div>
+        </div>
+      </main>
+    </template>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref } from 'vue'
 import AppBar from '~/components/Common/AppBar.vue'
-import PrimaryButton from '~/components/Common/PrimaryButton.vue'
-import ControlKnob from '~/components/Player/ControlKnob.vue'
+import ErrorDialog from '~/components/Common/ErrorDialog.vue'
+import LoadingSpinner from '~/components/Common/LoadingSpinner.vue'
+import RadioDisplaySection from '~/components/Player/RadioDisplaySection.vue'
+import EffectsPanel from '~/components/Player/EffectsPanel.vue'
 import EffectButton from '~/components/Player/EffectButton.vue'
 
-const volume = ref(50)
-const eq = ref(0)
-const delay = ref(200)
-const reverb = ref(20)
+// ローディング / エラー状態
+const isLoading = ref(false)
+const showError = ref(false)
 
-function onSelectStation() {
-  // 画面遷移ロジックをここに
+// ラジオ情報
+const songName = ref('ROOTS REVIVAL')
+const artistName = ref('King Tubby & The Aggrovators')
+const stationName = ref('DUBBING MY WAY')
+
+// エフェクト状態
+const masterVolume = ref(50)
+const equalizerEnabled = ref(false)
+const equalizerLow = ref(50)
+const equalizerMid = ref(50)
+const equalizerHigh = ref(50)
+const delayEnabled = ref(false)
+const delayAmount = ref(0)
+const reverbEnabled = ref(false)
+const reverbAmount = ref(0)
+
+function onChangeStation() {
+  // TODO: ラジオ局変更ロジック
 }
+
 function onPlaySiren() {
-  // サイレン効果音再生ロジック
+  // TODO: サイレン効果音再生ロジック
 }
+
 function onPlayBeam1() {
-  // ビーム1効果音再生ロジック
+  // TODO: ビーム1効果音再生ロジック
 }
+
 function onPlayBeam2() {
-  // ビーム2効果音再生ロジック
+  // TODO: ビーム2効果音再生ロジック
+}
+
+function onRetry() {
+  showError.value = false
+  isLoading.value = true
+  // TODO: 再接続ロジック
+}
+
+function onHome() {
+  showError.value = false
 }
 </script>
+
+<style scoped>
+.page-root {
+  min-height: 100dvh;
+  background: #fdfcf5;
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #fdfcf5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 16px 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.effect-buttons {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  max-width: 358px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.effect-buttons-section__label {
+  font-weight: 700;
+}
+</style>

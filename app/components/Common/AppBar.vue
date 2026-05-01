@@ -1,17 +1,11 @@
 <template>
-  <v-app-bar
-    :elevation="0"
-    color="#E6E5BF"
-    class="app-bar"
-    flat
-    height="64"
-  >
+  <header class="app-bar">
     <div class="app-bar__content">
       <span class="app-bar__title">
         <slot />
       </span>
     </div>
-  </v-app-bar>
+  </header>
 </template>
 
 <script setup lang="ts">
@@ -27,6 +21,7 @@
   display: flex;
   align-items: center;
   padding: 0 24px;
+  position: relative;
 }
 .app-bar__content {
   width: 100%;
@@ -34,7 +29,7 @@
   align-items: center;
 }
 .app-bar__title {
-  font-family: var(--font-heading, 'Noto Sans JP', 'Quicksand', sans-serif);
+  font-family: 'Plus Jakarta Sans', 'Noto Sans JP', sans-serif;
   font-weight: 900;
   font-size: 24px;
   line-height: 32px;
