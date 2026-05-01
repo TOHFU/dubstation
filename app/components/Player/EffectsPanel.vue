@@ -21,7 +21,7 @@
     <div class="effects-panel__stack">
       <section class="effects-panel__card effects-panel__card--eq" aria-label="Equalizer">
         <div class="effects-panel__card-header">
-          <h3 class="effects-panel__card-title">Equalizer</h3>
+          <h3 class="effects-panel__card-title effects-panel__card-title--eq">Equalizer</h3>
           <EffectSwitch
             :model-value="equalizerEnabled"
             @update:model-value="emit('update:equalizerEnabled', $event)"
@@ -203,6 +203,13 @@ const reverbText = computed(() => props.reverbDisplay ?? `${props.reverbAmount}%
 .effects-panel__card-title {
   font-weight: 700;
   letter-spacing: 0.04em;
+  text-align: center;
+  width: 64px;
+}
+
+.effects-panel__card-title--eq {
+  text-align: left;
+  width: auto;
 }
 
 .effects-panel__icon {
