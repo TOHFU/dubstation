@@ -2,6 +2,14 @@
   <v-btn
     class="effect-btn"
     :style="buttonStyle"
+    @pointerdown="onPressStart"
+    @pointerup="onPressEnd"
+    @pointerleave="onPressEnd"
+    @pointercancel="onPressEnd"
+    @keydown.space.prevent="onPressStart"
+    @keyup.space.prevent="onPressEnd"
+    @keydown.enter.prevent="onPressStart"
+    @keyup.enter.prevent="onPressEnd"
     @click="$emit('play')"
     height="96"
     rounded="xl"
@@ -26,7 +34,22 @@ import { computed } from 'vue'
 import iconSiren from '../../assets/icons/icon-siren.svg'
 import iconBeam1 from '../../assets/icons/icon-beam1.svg'
 import iconBeam2 from '../../assets/icons/icon-beam2.svg'
+
 const props = defineProps<{ color?: 'siren' | 'beam1' | 'beam2' }>()
+const emit = defineEmits<{
+  (e: 'play'): void
+  (e: 'press-start'): void
+  (e: 'press-end'): void
+}>()
+
+function onPressStart() {
+  emit('press-start')
+}
+
+function onPressEnd() {
+  emit('press-end')
+}
+
 const colorMap = {
   siren: {
     bg: 'rgba(255, 107, 107, 0.2)',
