@@ -83,6 +83,8 @@ function onKeydown(e: KeyboardEvent) {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 8px 24px 0 rgba(67, 56, 20, 0.18);
 }
 .control-knob--large .control-knob__svg-wrap img {
   width: 96px;
@@ -105,5 +107,6 @@ function onKeydown(e: KeyboardEvent) {
   margin-top: 8px;
   font-size: 14px;
   color: #606042;
+  font-weight: 700;
 }
 </style>
