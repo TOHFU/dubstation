@@ -32,15 +32,16 @@
         :size="'large'"
         label="VOLUME"
       />
-      <button class="radio-display-section__change-btn" @click="$emit('change-station')">
+      <SecondaryButton @click="$emit('change-station')">
         CHANGE STATION
-      </button>
+      </SecondaryButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch, defineEmits } from 'vue'
+import SecondaryButton from '../Common/SecondaryButton.vue'
 import ControlKnob from './ControlKnob.vue'
 import liveBroadcastingIcon from '../../assets/icons/live-broadcasting-icon.svg'
 
@@ -151,31 +152,5 @@ watch(volume, v => emit('update:modelValue', v))
   margin-top: 16px;
   justify-content: center;
   z-index: 1;
-}
-.radio-display-section__change-btn {
-  background: transparent;
-  border: none;
-  color: #1C1917;
-  font-size: 16px;
-  font-family: var(--font-heading);
-  font-weight: 900;
-  min-width: 131px;
-  height: 36px;
-  padding: 0 18px;
-  border-radius: 9999px;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-  box-shadow: none;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-}
-.radio-display-section__change-btn:hover {
-  background: #FFD16622;
-  color: #1C1917;
 }
 </style>
