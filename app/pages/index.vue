@@ -35,6 +35,16 @@
           @change-station="onChangeStation"
         />
 
+        <!-- 効果音ボタン -->
+        <div class="effect-buttons-section">
+          <p class="effect-buttons-section__label">One Shot FX</p>
+          <div class="effect-buttons">
+            <EffectButton color="siren" @play="onPlaySiren">SIREN</EffectButton>
+            <EffectButton color="beam1" @play="onPlayBeam1">BEAM 1</EffectButton>
+            <EffectButton color="beam2" @play="onPlayBeam2">BEAM 2</EffectButton>
+          </div>
+        </div>
+
         <!-- エフェクトパネル -->
         <EffectsPanel
           v-model:master-volume="masterVolume"
@@ -47,16 +57,6 @@
           v-model:reverb-enabled="reverbEnabled"
           v-model:reverb-amount="reverbAmount"
         />
-
-        <!-- 効果音ボタン -->
-        <div class="effect-buttons-section">
-          <p class="effect-buttons-section__label">One Shot FX</p>
-          <div class="effect-buttons">
-            <EffectButton color="siren" @play="onPlaySiren">SIREN</EffectButton>
-            <EffectButton color="beam1" @play="onPlayBeam1">BEAM 1</EffectButton>
-            <EffectButton color="beam2" @play="onPlayBeam2">BEAM 2</EffectButton>
-          </div>
-        </div>
       </main>
     </template>
   </div>
