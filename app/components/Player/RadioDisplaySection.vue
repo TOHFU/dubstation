@@ -4,9 +4,15 @@
       <img :src="liveBroadcastingIcon" alt="live" class="radio-display-section__status-icon" />
       <span>LIVE BROADCASTING</span>
     </div>
-    <div class="radio-display-section__song">{{ songName }}</div>
-    <div class="radio-display-section__artist">{{ artistName }}</div>
-    <div class="radio-display-section__station">{{ stationName }}</div>
+    <div v-if="songName" class="radio-display-section__song">{{ songName }}</div>
+    <div v-if="artistName" class="radio-display-section__artist">{{ artistName }}</div>
+    <button
+      class="radio-display-section__station"
+      type="button"
+      @click="$emit('change-station')"
+    >
+      {{ stationName }}
+    </button>
     <div class="radio-display-section__knob-row">
       <ControlKnob
         v-model="volume"
@@ -103,6 +109,7 @@ watch(volume, v => emit('update:modelValue', v))
 }
 .radio-display-section__station {
   background: #F5F5E6;
+  border: none;
   border-radius: 9999px;
   color: #A6A67A;
   font-size: 14px;
@@ -110,6 +117,7 @@ watch(volume, v => emit('update:modelValue', v))
   padding: 2px 16px;
   margin-bottom: 8px;
   text-align: center;
+  cursor: pointer;
 }
 .radio-display-section__knob-row {
   display: flex;

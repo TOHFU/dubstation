@@ -2,11 +2,23 @@
   <div class="page-root">
     <!-- ローディング -->
     <div v-if="isLoading" class="overlay">
-      <LoadingSpinner />
+      <div class="overlay__content">
+        <LoadingSpinner />
+      </div>
+      <div class="overlay__actions">
+        <SecondaryButton @click="onLoadingBack">BACK</SecondaryButton>
+      </div>
     </div>
 
     <!-- エラーダイアログ -->
     <ErrorDialog v-model="showError" @retry="onRetry" @home="onHome" />
+
+    <audio
+      ref="audioElement"
+      class="sr-only"
+      preload="none"
+      @error="onAudioError"
+    />
 
     <template v-if="!isLoading">
       <!-- ヘッダー -->
@@ -16,8 +28,8 @@
       <main class="main">
         <!-- ラジオ表示セクション -->
         <RadioDisplaySection
-          :song-name="songName"
-          :artist-name="artistName"
+          :song-name="displaySongName"
+          :artist-name="displayArtistName"
           :station-name="stationName"
           v-model="masterVolume"
           @change-station="onChangeStation"
@@ -51,14 +63,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 
 import AppBar from '../components/Common/AppBar.vue'
 import ErrorDialog from '../components/Common/ErrorDialog.vue'
 import LoadingSpinner from '../components/Common/LoadingSpinner.vue'
+import SecondaryButton from '../components/Common/SecondaryButton.vue'
 import RadioDisplaySection from '../components/Player/RadioDisplaySection.vue'
 import EffectsPanel from '../components/Player/EffectsPanel.vue'
 import EffectButton from '../components/Player/EffectButton.vue'
+import { useAppStore } from '../stores/app'
 
 const props = withDefaults(defineProps<{
   loading?: boolean
@@ -68,21 +83,46 @@ const props = withDefaults(defineProps<{
   error: false,
 })
 
+const appStore = useAppStore()
+const route = useRoute()
+const audioElement = ref<HTMLAudioElement | null>(null)
+
+const {
+  selectedStation,
+  playbackState,
+  songName,
+  artistName,
+} = storeToRefs(appStore)
+
+const METADATA_POLLING_INTERVAL_MS = 20000
+let metadataPollingTimer: ReturnType<typeof setInterval> | null = null
+
 // ローディング / エラー状態
-const isLoading = ref(props.loading)
-const showError = ref(props.error)
+const isLoading = computed(() => props.loading || playbackState.value === 'loading')
+const showError = computed({
+  get: () => props.error || playbackState.value === 'error',
+  set: (value: boolean) => {
+    if (!value) {
+      appStore.clearError()
+    }
+  },
+})
 
 watch(() => props.loading, (value) => {
-  isLoading.value = value
+  if (!value && playbackState.value === 'loading') {
+    appStore.playbackState = 'idle'
+  }
 })
 watch(() => props.error, (value) => {
-  showError.value = value
+  if (value) {
+    appStore.markPlaybackError('ストリームに接続できませんでした。')
+  }
 })
 
 // ラジオ情報
-const songName = ref('ROOTS REVIVAL')
-const artistName = ref('King Tubby & The Aggrovators')
-const stationName = ref('DUBBING MY WAY')
+const displaySongName = computed(() => songName.value ?? undefined)
+const displayArtistName = computed(() => artistName.value ?? undefined)
+const stationName = computed(() => selectedStation.value?.name ?? 'SELECT STATION')
 
 // エフェクト状態
 const masterVolume = ref(50)
@@ -112,14 +152,67 @@ function onPlayBeam2() {
 }
 
 function onRetry() {
-  showError.value = false
-  isLoading.value = true
-  // TODO: 再接続ロジック
+  void appStore.retryPlayback(audioElement.value)
 }
 
 function onHome() {
-  showError.value = false
+  appStore.clearError()
+  appStore.stopPlayback(audioElement.value)
 }
+
+function onAudioError() {
+  appStore.markPlaybackError('ストリームの再生中にエラーが発生しました。')
+}
+
+function onLoadingBack() {
+  appStore.stopPlayback(audioElement.value)
+  appStore.clearSelectedStation()
+  appStore.clearError()
+  void navigateTo('/', { replace: true })
+}
+
+function startMetadataPolling() {
+  stopMetadataPolling()
+
+  metadataPollingTimer = setInterval(() => {
+    void appStore.fetchMetadata()
+  }, METADATA_POLLING_INTERVAL_MS)
+}
+
+function stopMetadataPolling() {
+  if (!metadataPollingTimer) {
+    return
+  }
+
+  clearInterval(metadataPollingTimer)
+  metadataPollingTimer = null
+}
+
+watch(playbackState, (state) => {
+  if (state === 'playing') {
+    startMetadataPolling()
+    return
+  }
+
+  stopMetadataPolling()
+}, { immediate: true })
+
+onMounted(async () => {
+  appStore.initialize()
+
+  if (route.query.autoplay === '1') {
+    if (selectedStation.value) {
+      await appStore.startPlayback(audioElement.value)
+    }
+
+    await navigateTo('/', { replace: true })
+  }
+})
+
+onBeforeUnmount(() => {
+  stopMetadataPolling()
+  appStore.stopPlayback(audioElement.value)
+})
 </script>
 
 <style scoped>
@@ -135,9 +228,32 @@ function onHome() {
   inset: 0;
   z-index: 100;
   background: #fdfcf5;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+.overlay__content {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.overlay__actions {
+  display: flex;
+  justify-content: center;
+  padding: 0 16px 32px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .main {
