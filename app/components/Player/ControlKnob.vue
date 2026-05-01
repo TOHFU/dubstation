@@ -88,9 +88,17 @@ function onKeydown(e: KeyboardEvent) {
   border-radius: 50%;
   box-shadow: 0 8px 24px 0 rgba(67, 56, 20, 0.18);
 }
+.control-knob__svg-wrap img {
+  display: block;
+  border: 0;
+  outline: none;
+}
 .control-knob--large .control-knob__svg-wrap img {
   width: 96px;
   height: 96px;
+}
+.control-knob--medium .control-knob__svg-wrap {
+  background: #E6E5BF;
 }
 .control-knob--medium .control-knob__svg-wrap img {
   width: 64px;
@@ -104,6 +112,8 @@ function onKeydown(e: KeyboardEvent) {
   height: 100%;
   opacity: 0;
   cursor: pointer;
+  border: 0;
+  outline: none;
 }
 .control-knob__label {
   margin-top: 8px;

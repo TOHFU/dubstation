@@ -3,13 +3,13 @@
     <div class="vertical-eq-slider__input">
       <input
         type="range"
-        orient="vertical"
         :min="min"
         :max="max"
         :step="step"
         v-model.number="proxyValue"
         class="vertical-eq-slider__range"
         :aria-label="label"
+        @wheel.prevent
       />
     </div>
     <div class="vertical-eq-slider__label">{{ label }}</div>
@@ -43,26 +43,31 @@ watch(proxyValue, v => emit('update:modelValue', v))
   gap: 8px;
 }
 .vertical-eq-slider__input {
-  width: 16px;
-  height: 96px;
+  width: 12px;
+  height: 100px;
   background: #E6E5BF;
   border-radius: 9999px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow: visible;
+  overscroll-behavior: contain;
 }
 .vertical-eq-slider__range {
-  writing-mode: bt-lr; /* vertical */
-  -webkit-appearance: slider-vertical;
-  width: 8px;
-  height: 88px;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 90px;
+  height: 8px;
   background: transparent;
   position: absolute;
-  left: 50%;
-  top: 4;
-  transform: translateX(-50%);
+  transform: rotate(-90deg);
+  transform-origin: center;
   accent-color: #E6E5BF;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 /* ノブの色・形状をHorizontalEqSliderと統一 */
 .vertical-eq-slider__range::-webkit-slider-thumb {
@@ -76,8 +81,6 @@ watch(proxyValue, v => emit('update:modelValue', v))
   border: none;
   cursor: pointer;
   transition: background 0.2s;
-  position: relative;
-  left: 50%;
 }
 .vertical-eq-slider__range:focus::-webkit-slider-thumb {
   outline: 2px solid #06D6A0;
@@ -91,9 +94,6 @@ watch(proxyValue, v => emit('update:modelValue', v))
   border: none;
   cursor: pointer;
   transition: background 0.2s;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
 }
 .vertical-eq-slider__range:focus::-moz-range-thumb {
   outline: 2px solid #06D6A0;
@@ -107,9 +107,6 @@ watch(proxyValue, v => emit('update:modelValue', v))
   border: none;
   cursor: pointer;
   transition: background 0.2s;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
 }
 .vertical-eq-slider__range:focus::-ms-thumb {
   outline: 2px solid #06D6A0;
@@ -120,7 +117,7 @@ watch(proxyValue, v => emit('update:modelValue', v))
   font-size: 16px;
   line-height: 28px;
   letter-spacing: 0.04em;
-  color: #33312E;
+  color: #66635F;
   text-align: center;
 }
 </style>
