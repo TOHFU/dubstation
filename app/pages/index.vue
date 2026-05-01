@@ -1,4 +1,3 @@
-
 <template>
   <div class="h-screen flex flex-col bg-[#FDFCF5]">
     <AppBar>
@@ -9,7 +8,9 @@
         <div class="text-h5 font-bold mb-1">Station Name</div>
         <div class="text-body-1 mb-1">Artist Name</div>
         <div class="text-body-2 text-grey-darken-1 mb-4">Track Title</div>
-        <PrimaryButton class="mb-4 w-full max-w-xs" @click="onSelectStation">ラジオ局を選択</PrimaryButton>
+        <PrimaryButton class="mb-4 w-full max-w-xs" @click="onSelectStation"
+          >ラジオ局を選択</PrimaryButton
+        >
       </div>
       <div class="w-full max-w-xs mb-8">
         <ControlKnob label="ボリューム" v-model="volume" :min="0" :max="100" />

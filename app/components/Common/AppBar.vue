@@ -34,7 +34,7 @@
   align-items: center;
 }
 .app-bar__title {
-  font-family: 'Plus Jakarta Sans', 'Noto Sans JP', 'Quicksand', sans-serif;
+  font-family: var(--font-heading, 'Noto Sans JP', 'Quicksand', sans-serif);
   font-weight: 900;
   font-size: 24px;
   line-height: 32px;
