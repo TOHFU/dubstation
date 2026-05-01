@@ -95,7 +95,7 @@ const reverbEnabled = ref(false)
 const reverbAmount = ref(0)
 
 function onChangeStation() {
-  // TODO: ラジオ局変更ロジック
+  void navigateTo('/station')
 }
 
 function onPlaySiren() {
