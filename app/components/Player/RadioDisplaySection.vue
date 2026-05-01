@@ -1,7 +1,7 @@
 <template>
   <div class="radio-display-section">
     <div class="radio-display-section__status">
-      <img src="/app/assets/icons/live-broadcasting-icon.svg" alt="live" class="radio-display-section__status-icon" />
+      <img :src="liveBroadcastingIcon" alt="live" class="radio-display-section__status-icon" />
       <span>LIVE BROADCASTING</span>
     </div>
     <div class="radio-display-section__song">{{ songName }}</div>
@@ -25,6 +25,7 @@
 <script setup lang="ts">
 import { ref, watch, defineEmits } from 'vue'
 import ControlKnob from './ControlKnob.vue'
+import liveBroadcastingIcon from '../../assets/icons/live-broadcasting-icon.svg'
 
 const props = defineProps<{
   songName?: string
@@ -60,7 +61,7 @@ watch(volume, v => emit('update:modelValue', v))
     position: absolute;
     inset: 0;
     z-index: 0;
-    background: url('/app/assets/textures/radio-noise-texture.png');
+    background: url('../../assets/textures/radio-noise-texture.png');
     opacity: 0.10;
     background-size: cover;
     pointer-events: none;
