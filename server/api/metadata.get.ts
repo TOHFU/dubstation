@@ -137,7 +137,12 @@ async function readIcyMetadata(streamUrl: string): Promise<ParsedMetadata> {
         break
       }
 
-      const metadataLength = metadataLengthByte[0] * 16
+      const firstByte = metadataLengthByte.at(0)
+      if (firstByte === undefined) {
+        break
+      }
+
+      const metadataLength = firstByte * 16
       if (metadataLength <= 0) {
         continue
       }

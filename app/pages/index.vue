@@ -74,6 +74,7 @@ import RadioDisplaySection from '../components/Player/RadioDisplaySection.vue'
 import EffectsPanel from '../components/Player/EffectsPanel.vue'
 import EffectButton from '../components/Player/EffectButton.vue'
 import { useAppStore } from '../stores/app'
+import { useAudioEffects } from '../composables/useAudioEffects'
 
 const props = withDefaults(defineProps<{
   loading?: boolean
@@ -86,6 +87,7 @@ const props = withDefaults(defineProps<{
 const appStore = useAppStore()
 const route = useRoute()
 const audioElement = ref<HTMLAudioElement | null>(null)
+const audioEffects = useAudioEffects()
 
 const {
   selectedStation,
@@ -197,8 +199,34 @@ watch(playbackState, (state) => {
   stopMetadataPolling()
 }, { immediate: true })
 
+watch([
+  masterVolume,
+  equalizerEnabled,
+  equalizerLow,
+  equalizerMid,
+  equalizerHigh,
+  delayEnabled,
+  delayAmount,
+  reverbEnabled,
+  reverbAmount,
+], () => {
+  audioEffects.apply({
+    masterVolume: masterVolume.value,
+    equalizerEnabled: equalizerEnabled.value,
+    equalizerLow: equalizerLow.value,
+    equalizerMid: equalizerMid.value,
+    equalizerHigh: equalizerHigh.value,
+    delayEnabled: delayEnabled.value,
+    delayAmount: delayAmount.value,
+    reverbEnabled: reverbEnabled.value,
+    reverbAmount: reverbAmount.value,
+  })
+}, { immediate: true })
+
 onMounted(async () => {
   appStore.initialize()
+
+  await audioEffects.init(audioElement.value)
 
   if (route.query.autoplay === '1') {
     if (selectedStation.value) {
@@ -212,6 +240,7 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   stopMetadataPolling()
   appStore.stopPlayback(audioElement.value)
+  audioEffects.dispose()
 })
 </script>
 
