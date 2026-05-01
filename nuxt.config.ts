@@ -1,3 +1,5 @@
+import { dubStationTheme } from './app/theme/vuetify.theme'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-12-21',
@@ -31,25 +33,14 @@ export default defineNuxtConfig({
   vuetify: {
     moduleOptions: {
       styles: { configFile: 'assets/styles/settings.scss' },
-
-      ssrClientHints: {
-        reloadOnFirstRequest: false,
-        viewportSize: true,
-        prefersColorScheme: true,
-        prefersReducedMotion: true,
-
-        prefersColorSchemeOptions: {
-          useBrowserThemeOnly: false,
-        },
-      },
     },
     vuetifyOptions: {
       theme: {
         defaultTheme: 'dubStationTheme',
         utilities: false,
         themes: {
-          dubStationTheme: require('./app/plugins/vuetify.theme').dubStationTheme,
-          light: require('./app/plugins/vuetify.theme').dubStationTheme,
+          dubStationTheme,
+          light: dubStationTheme,
           dark: {
             dark: true,
             colors: {
@@ -89,6 +80,8 @@ export default defineNuxtConfig({
 
   i18n: {
     defaultLocale: 'en',
+    strategy: 'no_prefix',
+    detectBrowserLanguage: false,
     vueI18n: './i18n.config.ts',
   },
 })

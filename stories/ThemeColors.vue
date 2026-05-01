@@ -16,6 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { dubStationTheme } from '../app/plugins/vuetify.theme'
+import { dubStationTheme } from '../app/theme/vuetify.theme'
 const colors = dubStationTheme.colors
 </script>
