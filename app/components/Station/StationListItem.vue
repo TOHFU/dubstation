@@ -5,14 +5,16 @@
     @click="$emit('select')"
   >
     <div class="station-list-item__thumbnail">
-      <img :src="dummyThumbnail" alt="station thumbnail" />
+      <img src="/assets/image/lion.png" alt="station thumbnail" />
     </div>
     <div class="station-list-item__content">
       <div class="station-list-item__title">{{ station.name }}</div>
       <div class="station-list-item__about">{{ station.about }}</div>
     </div>
     <button class="station-list-item__right-icon" type="button" aria-label="Select station">
-      <img :src="dummyRightIcon" alt="" />
+      <span class="material-symbols-rounded station-list-item__play-icon" aria-hidden="true">
+        play_circle
+      </span>
     </button>
   </div>
 </template>
@@ -87,14 +89,13 @@
   cursor: pointer;
   padding: 0;
 }
-.station-list-item__right-icon img {
-  display: block;
+.station-list-item__play-icon {
+  font-size: 32px;
+  line-height: 1;
+  color: #606042;
 }
 </style>
 <script setup lang="ts">
-import dummyThumbnail from '../../assets/icons/dummy-thumbnail.svg'
-import dummyRightIcon from '../../assets/icons/dummy-right-icon.svg'
-
 defineProps<{
   station: { id: string; name: string; about: string }
   selected?: boolean

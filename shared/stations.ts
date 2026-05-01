@@ -22,13 +22,6 @@ export const STATIONS: Station[] = [
     streamType: 'mp3',
   },
   {
-    id: 'radio-art-roots-reggae',
-    name: 'Radio Art: Roots Reggae',
-    about: 'ルーツレゲエ中心のMP3ストリーム。',
-    streamUrl: 'https://live.radioart.com/fRoots_reggae.mp3',
-    streamType: 'mp3',
-  },
-  {
     id: 'npo-funx-reggae',
     name: 'NPO FunX Reggae',
     about: 'NPO FunXのレゲエチャンネルMP3ストリーム。',
