@@ -109,7 +109,6 @@ export default defineEventHandler(async (event) => {
   headers.set('Content-Type', contentType)
   headers.set('Cache-Control', 'no-store, no-cache, must-revalidate')
   headers.set('Pragma', 'no-cache')
-  headers.set('Access-Control-Allow-Origin', '*')
 
   const icyName = upstream.headers.get('icy-name')
   if (icyName) {
