@@ -31,8 +31,10 @@
           :song-name="displaySongName"
           :artist-name="displayArtistName"
           :station-name="stationName"
+          :is-playing="isLiveBroadcasting"
           v-model="masterVolume"
           @change-station="onChangeStation"
+          @toggle-live="onToggleLiveBroadcasting"
         />
 
         <!-- 効果音ボタン -->
@@ -143,6 +145,7 @@ watch(() => props.error, (value) => {
 const displaySongName = computed(() => songName.value ?? undefined)
 const displayArtistName = computed(() => artistName.value ?? undefined)
 const stationName = computed(() => selectedStation.value?.name ?? 'SELECT STATION')
+const isLiveBroadcasting = computed(() => playbackState.value === 'playing')
 
 // エフェクト状態
 const masterVolume = ref(50)
@@ -213,6 +216,19 @@ function stopAllOneShotFx() {
 
 function onChangeStation() {
   void navigateTo('/station')
+}
+
+async function onToggleLiveBroadcasting() {
+  if (!selectedStation.value || playbackState.value === 'loading') {
+    return
+  }
+
+  if (playbackState.value === 'playing') {
+    appStore.pausePlayback(audioElement.value)
+    return
+  }
+
+  await appStore.resumePlayback(audioElement.value)
 }
 
 function onStartSiren() {
