@@ -23,27 +23,30 @@
 <script setup lang="ts">
 // Figmaデザイン準拠 効果音ボタン
 import { computed } from 'vue'
+import iconSiren from '../../assets/icons/icon-siren.svg'
+import iconBeam1 from '../../assets/icons/icon-beam1.svg'
+import iconBeam2 from '../../assets/icons/icon-beam2.svg'
 const props = defineProps<{ color?: 'siren' | 'beam1' | 'beam2' }>()
 const colorMap = {
   siren: {
     bg: 'rgba(255, 107, 107, 0.2)',
     border: '4px solid rgba(255, 107, 107, 0.4)',
     text: '#FF6B6B',
-    icon: '/app/assets/icons/icon-siren.svg',
+    icon: iconSiren,
     iconSize: 25,
   },
   beam1: {
     bg: 'rgba(255, 209, 102, 0.2)',
     border: '4px solid rgba(255, 209, 102, 0.4)',
     text: '#FFD166',
-    icon: '/app/assets/icons/icon-beam1.svg',
+    icon: iconBeam1,
     iconSize: 28,
   },
   beam2: {
     bg: 'rgba(6, 214, 160, 0.2)',
     border: '4px solid rgba(6, 214, 160, 0.4)',
     text: '#06D6A0',
-    icon: '/app/assets/icons/icon-beam2.svg',
+    icon: iconBeam2,
     iconSize: 25,
   },
 }
@@ -54,14 +57,14 @@ const buttonStyle = computed(() => {
     border: c.border,
     color: c.text,
     borderRadius: '32px',
-    minWidth: '120px',
+    minWidth: '100px',
     height: '96px',
     fontFamily: `'Noto Sans JP', 'Quicksand', sans-serif`,
     fontWeight: 700,
     fontSize: '16px',
     letterSpacing: '0.1em',
     textTransform: 'uppercase',
-    padding: '0 24px',
+    padding: '0 12px',
     boxSizing: 'border-box',
     display: 'flex',
     alignItems: 'center',

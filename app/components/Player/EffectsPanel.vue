@@ -196,12 +196,12 @@ const reverbText = computed(() => props.reverbDisplay ?? `${props.reverbAmount}%
 }
 
 .effects-panel__title {
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: 0.04em;
 }
 
 .effects-panel__card-title {
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: 0.04em;
 }
 
