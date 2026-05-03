@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app @contextmenu.prevent>
     <v-main>
       <nuxt-page :transition="pageTransition" />
     </v-main>

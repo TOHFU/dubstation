@@ -1,5 +1,5 @@
 <template>
-  <div class="radio-display-section relative mx-auto flex w-full max-w-[400px] flex-col items-center gap-3 overflow-hidden rounded-[32px] bg-[#C9C9A4] p-6 shadow-[inset_0px_4px_8px_4px_rgba(0,0,0,0.2),0_0_0_4px_rgba(28,25,23,0.1)]">
+  <div class="radio-display-section relative mx-auto flex w-full max-w-[400px] flex-col items-center gap-3 overflow-hidden rounded-[32px] bg-[#C9C9A4] p-6 shadow-[inset_0px_4px_8px_4px_rgba(0,0,0,0.2),0_0_0_4px_rgba(28,25,23,0.11)]">
     <button
       class="mb-2 flex cursor-pointer items-center gap-2 rounded-full border-none bg-[rgb(var(--v-theme-surface))] px-4 py-1 pl-2 text-xs font-bold text-[rgb(var(--v-theme-text-disabled))]"
       :class="{ 'text-[rgb(var(--v-theme-text-primary))]': props.isPlaying }"
@@ -15,8 +15,22 @@
       <span v-else class="inline-block h-[18px] w-[18px] rounded-full bg-[rgb(var(--v-theme-text-disabled))]" aria-hidden="true" />
       <span>LIVE BROADCASTING</span>
     </button>
-    <div v-if="songName" class="mb-[2px] text-center text-2xl font-black tracking-[-0.05em] text-[rgb(var(--v-theme-text-primary))]" style="font-family: var(--font-heading)">{{ songName }}</div>
-    <div v-if="artistName" class="mb-[2px] text-center text-base font-bold text-[rgb(var(--v-theme-accent))]">{{ artistName }}</div>
+    <button
+      v-if="songName"
+      class="mb-[2px] cursor-pointer border-none bg-transparent p-0 text-center text-2xl font-black tracking-[-0.05em] text-[rgb(var(--v-theme-text-primary))] [font-family:var(--font-heading)]"
+      type="button"
+      @click="$emit('copy-track-info')"
+    >
+      {{ songName }}
+    </button>
+    <button
+      v-if="artistName"
+      class="mb-[2px] cursor-pointer border-none bg-transparent p-0 text-center text-base font-bold text-[rgb(var(--v-theme-accent))]"
+      type="button"
+      @click="$emit('copy-track-info')"
+    >
+      {{ artistName }}
+    </button>
     <button
       class="mb-2 cursor-pointer rounded-full border-none bg-[rgb(var(--v-theme-surface))] px-4 py-[2px] text-center text-sm font-bold text-[rgb(var(--v-theme-text-primary))]"
       type="button"
@@ -53,7 +67,7 @@ const props = defineProps<{
   modelValue?: number
   isPlaying?: boolean
 }>()
-const emit = defineEmits(['update:modelValue', 'change-station', 'toggle-live'])
+const emit = defineEmits(['update:modelValue', 'change-station', 'toggle-live', 'copy-track-info'])
 
 const volume = ref(props.modelValue ?? 50)
 watch(() => props.modelValue, v => { if (v !== undefined) volume.value = v })

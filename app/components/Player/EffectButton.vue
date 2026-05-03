@@ -1,7 +1,8 @@
 <template>
   <v-btn
-    class="!h-24 !min-w-[100px] !rounded-[32px] !px-3 !normal-case"
+    class="!h-24 !min-w-[100px] !rounded-[32px] !border-4 !px-3 !normal-case !text-base !font-bold !tracking-[0.1em] [font-family:var(--font-heading)]"
     :style="buttonStyle"
+    :aria-label="buttonAriaLabel"
     @pointerdown="onPressStart"
     @pointerup="onPressEnd"
     @pointerleave="onPressEnd"
@@ -15,15 +16,21 @@
     rounded="xl"
     elevation="0"
   >
-    <div class="flex w-full flex-col items-center justify-center">
+    <div class="flex w-full flex-col items-center justify-center" aria-hidden="true">
       <img
-        class="mx-auto mb-1 block"
+        class="pointer-events-none mx-auto mb-1 block"
         :src="colorMap[props.color || 'siren'].icon"
         :width="colorMap[props.color || 'siren'].iconSize"
         :height="32"
-        :alt="props.color ? props.color + ' icon' : 'siren icon'"
+        alt=""
+        tabindex="-1"
+        aria-hidden="true"
       />
-      <span class="w-full text-center text-base font-bold uppercase leading-7 tracking-[0.1em]"><slot /></span>
+      <span
+        class="pointer-events-none w-full text-center text-base font-bold uppercase leading-7 tracking-[0.1em]"
+        tabindex="-1"
+        aria-hidden="true"
+      ><slot /></span>
     </div>
   </v-btn>
 </template>
@@ -74,24 +81,23 @@ const colorMap = {
     iconSize: 25,
   },
 }
+
 const buttonStyle = computed(() => {
   const c = colorMap[props.color || 'siren']
   return {
     background: c.bg,
     border: c.border,
     color: c.text,
-    borderRadius: '32px',
-    minWidth: '100px',
-    height: '96px',
-    fontFamily: `'Noto Sans JP', 'Quicksand', sans-serif`,
-    fontWeight: 700,
-    fontSize: '16px',
-    letterSpacing: '0.1em',
-    textTransform: 'uppercase',
-    boxSizing: 'border-box' as const,
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
   }
+})
+
+const buttonAriaLabel = computed(() => {
+  const labelMap = {
+    siren: 'SIREN',
+    beam1: 'BEAM 1',
+    beam2: 'BEAM 2',
+  } as const
+
+  return labelMap[props.color || 'siren']
 })
 </script>

@@ -25,17 +25,17 @@ code, pre, .v-code {
   transition: background 0.2s, color 0.2s;
 }
 .ds-btn--primary {
-  background-color: #E6E5BF;
-  color: #33312E;
+  background-color: rgb(var(--v-theme-primary));
+  color: rgb(var(--v-theme-on-primary));
 }
 .ds-btn--primary:active,
 .ds-btn--primary:focus {
-  background-color: #D1D0AA;
+  background-color: rgb(var(--v-theme-primary-darken-1));
 }
 .ds-btn--secondary {
   background-color: transparent;
-  color: #606042;
-  border: 2px solid #606042;
+  color: rgb(var(--v-theme-accent));
+  border: 2px solid rgb(var(--v-theme-accent));
 }
 .ds-btn--small {
   padding: 10px 16px;

@@ -19,6 +19,17 @@
       @later="onLaterSoundPermission"
     />
 
+    <v-snackbar
+      v-model="showCopiedToast"
+      :timeout="2000"
+      color="surface"
+      location="bottom center"
+      rounded="xl"
+      style="bottom: 32px"
+    >
+      <span class="block w-full text-center">曲名/アーティスト名がコピーされました</span>
+    </v-snackbar>
+
     <audio
       ref="audioElement"
       class="sr-only"
@@ -53,6 +64,7 @@
           v-model="masterVolume"
           @change-station="onChangeStation"
           @toggle-live="onToggleLiveBroadcasting"
+          @copy-track-info="onCopyTrackInfo"
         />
 
         <!-- 効果音ボタン -->
@@ -139,6 +151,7 @@ const {
 const METADATA_POLLING_INTERVAL_MS = 20000
 let metadataPollingTimer: ReturnType<typeof setInterval> | null = null
 const showSoundPermissionDialog = ref(false)
+const showCopiedToast = ref(false)
 
 // ローディング / エラー状態
 const isLoading = computed(() => props.loading || playbackState.value === 'loading')
@@ -241,6 +254,25 @@ function onChangeStation() {
 
 function onGoAbout() {
   void navigateTo('/about')
+}
+
+async function onCopyTrackInfo() {
+  const currentSongName = songName.value?.trim()
+  const currentArtistName = artistName.value?.trim()
+
+  if (!currentSongName || !currentArtistName || !navigator?.clipboard) {
+    return
+  }
+
+  const copyText = `${currentArtistName} / ${currentSongName}`
+
+  try {
+    await navigator.clipboard.writeText(copyText)
+    showCopiedToast.value = true
+  }
+  catch {
+    // クリップボード書き込みが制限されている場合は何もしない。
+  }
 }
 
 async function onToggleLiveBroadcasting() {
