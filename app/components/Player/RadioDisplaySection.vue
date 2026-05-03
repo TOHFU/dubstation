@@ -1,5 +1,5 @@
 <template>
-  <div class="radio-display-section relative mx-auto flex w-full max-w-[400px] flex-col items-center gap-3 overflow-hidden rounded-[32px] bg-[#C9C9A4] p-6 shadow-[inset_0px_4px_8px_4px_rgba(0,0,0,0.2),0_0_0_4px_rgba(28,25,23,0.11)]">
+  <div class="radio-display-section relative mx-auto flex w-full flex-col items-center gap-3 overflow-hidden rounded-[32px] bg-[#C9C9A4] p-6 shadow-[inset_0px_4px_8px_4px_rgba(0,0,0,0.2),0_0_0_4px_rgba(28,25,23,0.11)]">
     <button
       class="mb-2 flex cursor-pointer items-center gap-2 rounded-full border-none bg-[rgb(var(--v-theme-surface))] px-4 py-1 pl-2 text-xs font-bold text-[rgb(var(--v-theme-text-disabled))]"
       :class="{ 'text-[rgb(var(--v-theme-text-primary))]': props.isPlaying }"
@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, defineEmits } from 'vue'
+import { ref, watch } from 'vue'
 import SecondaryButton from '../Common/SecondaryButton.vue'
 import ControlKnob from './ControlKnob.vue'
 
