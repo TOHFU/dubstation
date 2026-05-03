@@ -16,10 +16,51 @@ export default defineNuxtConfig({
 
   app: {
     head: {
+      title: 'DUB STATION',
       meta: [
         {
           name: 'theme-color',
           content: 'rgb(230, 229, 191)',
+        },
+        {
+          property: 'og:title',
+          content: 'DUB STATION',
+        },
+        {
+          property: 'og:description',
+          content: 'ルーツレゲエ・ダブのネットラジオをストリーミングし、エフェクトと効果音をミックスできるPWAアプリ',
+        },
+        {
+          property: 'og:type',
+          content: 'website',
+        },
+        {
+          property: 'og:image',
+          content: '/assets/image/meta-image.png',
+        },
+        {
+          property: 'og:image:width',
+          content: '3840',
+        },
+        {
+          property: 'og:image:height',
+          content: '2160',
+        },
+        {
+          name: 'twitter:card',
+          content: 'summary_large_image',
+        },
+        {
+          name: 'twitter:title',
+          content: 'DUB STATION',
+        },
+        {
+          name: 'twitter:description',
+          content: 'ルーツレゲエ・ダブのネットラジオをストリーミングし、エフェクトと効果音をミックスできるPWAアプリ',
+        },
+        {
+          name: 'twitter:image',
+          content: '/assets/image/meta-image.png',
         },
       ],
       link: [
