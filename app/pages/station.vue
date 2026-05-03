@@ -23,28 +23,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import StationAppBar from '../components/Station/StationAppBar.vue'
 import StationList from '../components/Station/StationList.vue'
-import { useAppStore } from '../stores/app'
+import { useStationPage } from '../composables/pages/useStationPage'
 
-const appStore = useAppStore()
-
-const stations = computed(() => appStore.stations)
-const selectedStationId = computed(() => appStore.selectedStationId)
-const onlineCountText = computed(() => `${stations.value.length} Online`)
-
-function onSelectStation(stationId: string) {
-  appStore.selectStation(stationId)
-  void navigateTo('/?autoplay=1')
-}
-
-function goBack() {
-  if (appStore.selectedStationId) {
-    void navigateTo('/?autoplay=1')
-    return
-  }
-
-  void navigateTo('/')
-}
+const {
+  stations,
+  selectedStationId,
+  onlineCountText,
+  onSelectStation,
+  goBack,
+} = useStationPage()
 </script>

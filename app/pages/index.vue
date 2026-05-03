@@ -113,9 +113,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { storeToRefs } from 'pinia'
-
 import AppBar from '../components/Common/AppBar.vue'
 import ErrorDialog from '../components/Common/ErrorDialog.vue'
 import LoadingSpinner from '../components/Common/LoadingSpinner.vue'
@@ -124,8 +121,7 @@ import SecondaryButton from '../components/Common/SecondaryButton.vue'
 import RadioDisplaySection from '../components/Player/RadioDisplaySection.vue'
 import EffectsPanel from '../components/Player/EffectsPanel.vue'
 import EffectButton from '../components/Player/EffectButton.vue'
-import { useAppStore } from '../stores/app'
-import { useAudioEffects } from '../composables/useAudioEffects'
+import { usePlayerPage } from '../composables/pages/usePlayerPage'
 
 const props = withDefaults(defineProps<{
   loading?: boolean
@@ -135,250 +131,16 @@ const props = withDefaults(defineProps<{
   error: false,
 })
 
-const appStore = useAppStore()
-const route = useRoute()
-const audioElement = ref<HTMLAudioElement | null>(null)
-const audioEffects = useAudioEffects()
-
 const {
-  selectedStation,
-  playbackState,
-  songName,
-  artistName,
-  hasOpenedSoundPermissionDialog,
-} = storeToRefs(appStore)
-
-const METADATA_POLLING_INTERVAL_MS = 20000
-let metadataPollingTimer: ReturnType<typeof setInterval> | null = null
-const showSoundPermissionDialog = ref(false)
-const showCopiedToast = ref(false)
-
-// ローディング / エラー状態
-const isLoading = computed(() => props.loading || playbackState.value === 'loading')
-const showError = computed({
-  get: () => props.error || playbackState.value === 'error',
-  set: (value: boolean) => {
-    if (!value) {
-      appStore.clearError()
-    }
-  },
-})
-
-watch(() => props.loading, (value) => {
-  if (!value && playbackState.value === 'loading') {
-    appStore.playbackState = 'idle'
-  }
-})
-watch(() => props.error, (value) => {
-  if (value) {
-    appStore.markPlaybackError('ストリームに接続できませんでした。')
-  }
-})
-
-// ラジオ情報
-const displaySongName = computed(() => songName.value ?? undefined)
-const displayArtistName = computed(() => artistName.value ?? undefined)
-const stationName = computed(() => selectedStation.value?.name ?? 'SELECT STATION')
-const isLiveBroadcasting = computed(() => playbackState.value === 'playing')
-
-// エフェクト状態
-const masterVolume = ref(50)
-const equalizerEnabled = ref(false)
-const equalizerLow = ref(50)
-const equalizerMid = ref(50)
-const equalizerHigh = ref(50)
-const delayEnabled = ref(false)
-const delayAmount = ref(500)
-const reverbEnabled = ref(false)
-const reverbAmount = ref(50)
-
-type OneShotFxKey = 'siren' | 'beam1' | 'beam2'
-
-const ONE_SHOT_FX_SOURCES: Record<OneShotFxKey, string> = {
-  siren: '/assets/soundfx/siren.mp3',
-  beam1: '/assets/soundfx/beam1.mp3',
-  beam2: '/assets/soundfx/beam2.mp3',
-}
-
-const oneShotFxMap = new Map<OneShotFxKey, HTMLAudioElement>()
-
-function getOneShotFxAudio(key: OneShotFxKey): HTMLAudioElement {
-  const existing = oneShotFxMap.get(key)
-  if (existing) {
-    return existing
-  }
-
-  const audio = new Audio(ONE_SHOT_FX_SOURCES[key])
-  audio.preload = 'auto'
-  audio.loop = true
-  oneShotFxMap.set(key, audio)
-
-  return audio
-}
-
-async function startOneShotFx(key: OneShotFxKey) {
-  const audio = getOneShotFxAudio(key)
-  if (!audio.paused) {
-    return
-  }
-
-  audio.currentTime = 0
-
-  try {
-    await audio.play()
-  }
-  catch {
-    // ユーザー操作直後以外ではブラウザに再生をブロックされる場合がある。
-  }
-}
-
-function stopOneShotFx(key: OneShotFxKey) {
-  const audio = oneShotFxMap.get(key)
-  if (!audio) {
-    return
-  }
-
-  audio.pause()
-  audio.currentTime = 0
-}
-
-function stopAllOneShotFx() {
-  stopOneShotFx('siren')
-  stopOneShotFx('beam1')
-  stopOneShotFx('beam2')
-}
-
-function onChangeStation() {
-  void navigateTo('/station')
-}
-
-function onGoAbout() {
-  void navigateTo('/about')
-}
-
-async function onCopyTrackInfo() {
-  const currentSongName = songName.value?.trim()
-  const currentArtistName = artistName.value?.trim()
-
-  if (!currentSongName || !currentArtistName || !navigator?.clipboard) {
-    return
-  }
-
-  const copyText = `${currentArtistName} / ${currentSongName}`
-
-  try {
-    await navigator.clipboard.writeText(copyText)
-    showCopiedToast.value = true
-  }
-  catch {
-    // クリップボード書き込みが制限されている場合は何もしない。
-  }
-}
-
-async function onToggleLiveBroadcasting() {
-  if (!selectedStation.value || playbackState.value === 'loading') {
-    return
-  }
-
-  if (playbackState.value === 'playing') {
-    appStore.pausePlayback(audioElement.value)
-    return
-  }
-
-  await appStore.resumePlayback(audioElement.value)
-}
-
-function onStartSiren() {
-  void startOneShotFx('siren')
-}
-
-function onStopSiren() {
-  stopOneShotFx('siren')
-}
-
-function onStartBeam1() {
-  void startOneShotFx('beam1')
-}
-
-function onStopBeam1() {
-  stopOneShotFx('beam1')
-}
-
-function onStartBeam2() {
-  void startOneShotFx('beam2')
-}
-
-function onStopBeam2() {
-  stopOneShotFx('beam2')
-}
-
-function onRetry() {
-  void appStore.retryPlayback(audioElement.value)
-}
-
-function onHome() {
-  stopAllOneShotFx()
-  appStore.clearError()
-  appStore.stopPlayback(audioElement.value)
-}
-
-function onAudioError() {
-  appStore.markPlaybackError('ストリームの再生中にエラーが発生しました。')
-}
-
-function onLoadingBack() {
-  stopAllOneShotFx()
-  appStore.stopPlayback(audioElement.value)
-  appStore.clearSelectedStation()
-  appStore.clearError()
-  void navigateTo('/', { replace: true })
-}
-
-async function onAllowSoundPermission() {
-  showSoundPermissionDialog.value = false
-  appStore.markSoundPermissionDialogOpened()
-
-  const previewAudio = new Audio('/assets/soundfx/radio.mp3')
-
-  try {
-    await previewAudio.play()
-  }
-  catch {
-    // ユーザー操作中でも再生に失敗する場合がある。
-  }
-}
-
-function onLaterSoundPermission() {
-  showSoundPermissionDialog.value = false
-}
-
-function startMetadataPolling() {
-  stopMetadataPolling()
-
-  metadataPollingTimer = setInterval(() => {
-    void appStore.fetchMetadata()
-  }, METADATA_POLLING_INTERVAL_MS)
-}
-
-function stopMetadataPolling() {
-  if (!metadataPollingTimer) {
-    return
-  }
-
-  clearInterval(metadataPollingTimer)
-  metadataPollingTimer = null
-}
-
-watch(playbackState, (state) => {
-  if (state === 'playing') {
-    startMetadataPolling()
-    return
-  }
-
-  stopMetadataPolling()
-}, { immediate: true })
-
-watch([
+  audioElement,
+  showCopiedToast,
+  showSoundPermissionDialog,
+  isLoading,
+  showError,
+  displaySongName,
+  displayArtistName,
+  stationName,
+  isLiveBroadcasting,
   masterVolume,
   equalizerEnabled,
   equalizerLow,
@@ -388,43 +150,21 @@ watch([
   delayAmount,
   reverbEnabled,
   reverbAmount,
-], () => {
-  audioEffects.apply({
-    masterVolume: masterVolume.value,
-    equalizerEnabled: equalizerEnabled.value,
-    equalizerLow: equalizerLow.value,
-    equalizerMid: equalizerMid.value,
-    equalizerHigh: equalizerHigh.value,
-    delayEnabled: delayEnabled.value,
-    delayAmount: delayAmount.value,
-    reverbEnabled: reverbEnabled.value,
-    reverbAmount: reverbAmount.value,
-  })
-}, { immediate: true })
-
-onMounted(async () => {
-  appStore.initialize()
-
-  if (!hasOpenedSoundPermissionDialog.value) {
-    showSoundPermissionDialog.value = true
-    appStore.markSoundPermissionDialogOpened()
-  }
-
-  await audioEffects.init(audioElement.value)
-
-  if (route.query.autoplay === '1') {
-    if (selectedStation.value) {
-      await appStore.startPlayback(audioElement.value)
-    }
-
-    await navigateTo('/', { replace: true })
-  }
-})
-
-onBeforeUnmount(() => {
-  stopAllOneShotFx()
-  stopMetadataPolling()
-  appStore.stopPlayback(audioElement.value)
-  audioEffects.dispose()
-})
+  onChangeStation,
+  onGoAbout,
+  onCopyTrackInfo,
+  onToggleLiveBroadcasting,
+  onStartSiren,
+  onStopSiren,
+  onStartBeam1,
+  onStopBeam1,
+  onStartBeam2,
+  onStopBeam2,
+  onRetry,
+  onHome,
+  onAudioError,
+  onLoadingBack,
+  onAllowSoundPermission,
+  onLaterSoundPermission,
+} = usePlayerPage(props)
 </script>
