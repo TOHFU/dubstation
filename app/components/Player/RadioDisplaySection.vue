@@ -78,13 +78,14 @@ watch(volume, v => emit('update:modelValue', v))
   .radio-display-section::before {
     content: '';
     position: absolute;
-    inset: 0;
+    inset: 4px;
     z-index: 0;
-    background: url('../../assets/textures/radio-noise-texture.png');
+    background-image: url('/assets/figma-radio-display/subtle-noise-texture.png');
     opacity: 0.10;
-    background-size: cover;
+    background-repeat: repeat;
+    background-size: auto;
     pointer-events: none;
-    border-radius: 32px;
+    border-radius: 28px;
   }
 .radio-display-section__status {
   background: #F5F5E6;
