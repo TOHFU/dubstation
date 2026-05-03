@@ -48,3 +48,8 @@ UIでのエフェクト操作（フェーダー、つまみ）。
 | Radio FIP Reggae           | https://stream.radiofrance.fr/fipreggae/fipreggae.m3u8 | 高音質HLS形式 |
 | SomaFM: Heavyweight Reggae | https://ice1.somafm.com/reggae-128-mp3                 |               |
 | NPO FunX Reggae            | https://icecast.omroep.nl/funx-reggae-bb-mp3           |               |
+| NHK-FM (東京)              | https://simul.drdi.st.nhk/live/7/joined/master.m3u8    |               |
+| Shonan Beach FM            | https://sbfm.ice.infomaniak.ch/sbfm-128.mp3            |               |
+| FM Karuizawa               | https://fm-karuizawa.hosting-radio.com/8120/stream     |               |
+| JP-Radio (J-Pop)           | http://listen.shoutcast.com/j-pop-world                |               |
+| J-Pop Project Radio        | http://91.121.134.23:8100/stream                       |               |
