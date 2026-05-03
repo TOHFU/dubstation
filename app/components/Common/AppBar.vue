@@ -1,9 +1,15 @@
 <template>
   <header class="app-bar">
     <div class="app-bar__content">
+      <div v-if="$slots.leading" class="app-bar__leading">
+        <slot name="leading" />
+      </div>
       <span class="app-bar__title">
         <slot />
       </span>
+      <div v-if="$slots.actions" class="app-bar__actions">
+        <slot name="actions" />
+      </div>
     </div>
   </header>
 </template>
@@ -27,9 +33,15 @@
   width: 100%;
   display: flex;
   align-items: center;
+  gap: 12px;
+}
+.app-bar__leading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .app-bar__title {
-  font-family: 'Plus Jakarta Sans', 'Noto Sans JP', sans-serif;
+  font-family: var(--font-heading);
   font-weight: 900;
   font-size: 24px;
   line-height: 32px;
@@ -38,5 +50,10 @@
   text-transform: uppercase;
   text-align: left;
   vertical-align: middle;
+}
+.app-bar__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
 }
 </style>
