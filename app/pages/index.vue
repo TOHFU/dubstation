@@ -68,9 +68,9 @@
         />
 
         <!-- 効果音ボタン -->
-        <div>
+        <div class="w-full">
           <p class="font-bold">One Shot FX</p>
-          <div class="mt-4 flex w-full max-w-[358px] justify-center gap-4">
+          <div class="mt-4 flex w-full justify-center gap-4">
             <EffectButton
               color="siren"
               @press-start="onStartSiren"
