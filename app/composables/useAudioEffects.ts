@@ -56,12 +56,9 @@ export function useAudioEffects() {
 
     audioElement = target
 
-    try {
-      await Tone.start()
-    }
-    catch {
+    void Tone.start().catch(() => {
       // 初回表示時など、ユーザー操作前は失敗しうるため握りつぶす。
-    }
+    })
 
     const rawContext = Tone.getContext().rawContext
     if (!hasCreateMediaElementSource(rawContext)) {
