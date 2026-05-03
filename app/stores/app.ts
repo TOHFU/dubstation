@@ -1,6 +1,6 @@
 // Utilities
 import { defineStore } from 'pinia'
-import { STATIONS } from '../../shared/stations'
+import { STATIONS } from '~~/shared/stations'
 
 type PlaybackState = 'idle' | 'loading' | 'playing' | 'error'
 

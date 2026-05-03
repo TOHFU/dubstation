@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { STATIONS } from '../../shared/stations'
+import { STATIONS } from '~~/shared/stations'
 
 const querySchema = z.object({
   stationId: z.string().min(1),

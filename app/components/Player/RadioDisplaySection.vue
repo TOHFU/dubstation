@@ -43,7 +43,7 @@
 import { ref, watch, defineEmits } from 'vue'
 import SecondaryButton from '../Common/SecondaryButton.vue'
 import ControlKnob from './ControlKnob.vue'
-import liveBroadcastingIcon from '../../assets/icons/live-broadcasting-icon.svg'
+import liveBroadcastingIcon from '~/assets/icons/live-broadcasting-icon.svg'
 
 const props = defineProps<{
   songName?: string
