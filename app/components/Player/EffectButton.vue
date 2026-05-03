@@ -1,6 +1,6 @@
 <template>
   <v-btn
-    class="effect-btn"
+    class="!h-24 !min-w-[100px] !rounded-[32px] !px-3 !normal-case"
     :style="buttonStyle"
     @pointerdown="onPressStart"
     @pointerup="onPressEnd"
@@ -15,15 +15,15 @@
     rounded="xl"
     elevation="0"
   >
-    <div class="effect-btn__content">
+    <div class="flex w-full flex-col items-center justify-center">
       <img
-        class="effect-btn__icon"
+        class="mx-auto mb-1 block"
         :src="colorMap[props.color || 'siren'].icon"
         :width="colorMap[props.color || 'siren'].iconSize"
         :height="32"
         :alt="props.color ? props.color + ' icon' : 'siren icon'"
       />
-      <span class="effect-btn__label"><slot /></span>
+      <span class="w-full text-center text-base font-bold uppercase leading-7 tracking-[0.1em]"><slot /></span>
     </div>
   </v-btn>
 </template>
@@ -87,41 +87,10 @@ const buttonStyle = computed(() => {
     fontSize: '16px',
     letterSpacing: '0.1em',
     textTransform: 'uppercase',
-    padding: '0 12px',
-    boxSizing: 'border-box',
+    boxSizing: 'border-box' as const,
     display: 'flex',
     alignItems: 'center',
     gap: '12px',
   }
 })
 </script>
-
-<style scoped>
-.effect-btn__content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-.effect-btn__icon {
-  display: block;
-  margin: 0 auto 4px auto;
-}
-.effect-btn__label {
-  width: 100%;
-  text-align: center;
-  text-transform: uppercase;
-  font-family: 'Noto Sans JP', 'Quicksand', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  letter-spacing: 0.1em;
-  line-height: 28px;
-}
-</style>
-
-  .effect-btn__icon {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 4px;
-  }

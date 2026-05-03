@@ -1,5 +1,5 @@
 <template>
-  <div class="station-list">
+  <div class="flex w-full flex-col gap-4">
     <StationListItem
       v-for="station in stations"
       :key="station.id"
@@ -21,11 +21,3 @@ defineEmits<{
   select: [stationId: string]
 }>()
 </script>
-<style scoped>
-.station-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-}
-</style>
