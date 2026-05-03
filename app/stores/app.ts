@@ -19,6 +19,7 @@ export const useAppStore = defineStore('app', {
     errorMessage: '',
     songName: null as string | null,
     artistName: null as string | null,
+    hasOpenedSoundPermissionDialog: false,
   }),
   getters: {
     selectedStation: state => state.stations.find(station => station.id === state.selectedStationId),
@@ -58,6 +59,9 @@ export const useAppStore = defineStore('app', {
     clearMetadata() {
       this.songName = null
       this.artistName = null
+    },
+    markSoundPermissionDialogOpened() {
+      this.hasOpenedSoundPermissionDialog = true
     },
     async startPlayback(audio: HTMLAudioElement | null) {
       if (!audio || !this.streamProxyUrl) {
