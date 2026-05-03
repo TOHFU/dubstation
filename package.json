@@ -57,6 +57,7 @@
     "eslint-config-vuetify": "^4.3.4",
     "eslint-plugin-storybook": "^10.3.6",
     "husky": "^8.0.0",
+    "jsdom": "^29.1.1",
     "lint-staged": "^16.4.0",
     "playwright": "^1.59.1",
     "sass": "^1.98.0",
