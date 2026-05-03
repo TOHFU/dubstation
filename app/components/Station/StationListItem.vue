@@ -61,6 +61,7 @@
   flex-direction: column;
   gap: 4px;
   margin-left: 16px;
+  margin-right: 8px;
 }
 .station-list-item__title {
   font-family: 'Noto Sans JP', sans-serif;
