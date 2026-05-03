@@ -1,9 +1,9 @@
 <template>
-  <section class="effects-panel" aria-label="Effects Panel">
-    <header class="effects-panel__header">
-      <h2 class="effects-panel__title">{{ title }}</h2>
+  <section class="flex w-full flex-col gap-6 rounded-[32px] bg-[rgb(var(--v-theme-primary)/0.3)] p-6 shadow-[0_4px_20px_0_rgba(67,56,20,0.08)] max-[520px]:p-5" aria-label="Effects Panel">
+    <header class="flex items-center justify-between">
+      <h2 class="m-0 text-base font-bold leading-7 tracking-[0.04em] text-[rgb(var(--v-theme-text-primary))]">{{ title }}</h2>
       <img
-        class="effects-panel__icon"
+        class="h-[22px] w-[22px]"
         src="/assets/figma-effects-panel/effects-panel-icon.svg"
         alt=""
         aria-hidden="true"
@@ -18,17 +18,17 @@
       @update:model-value="emit('update:masterVolume', $event)"
     />
 
-    <div class="effects-panel__stack">
-      <section class="effects-panel__card effects-panel__card--eq" aria-label="Equalizer">
-        <div class="effects-panel__card-header">
-          <h3 class="effects-panel__card-title effects-panel__card-title--eq">Equalizer</h3>
+    <div class="flex flex-col gap-4">
+      <section class="flex flex-col gap-4 rounded-[32px] border border-[rgb(var(--v-theme-border))] bg-[rgb(var(--v-theme-surface))] p-4" aria-label="Equalizer">
+        <div class="flex items-center justify-between">
+          <h3 class="m-0 w-auto text-left text-base font-bold leading-7 tracking-[0.04em] text-[rgb(var(--v-theme-text-primary))]">Equalizer</h3>
           <EffectSwitch
             :model-value="equalizerEnabled"
             @update:model-value="emit('update:equalizerEnabled', $event)"
           />
         </div>
 
-        <div class="effects-panel__eq-body">
+        <div class="flex items-end justify-between gap-[54px] px-[27px] py-2 max-[520px]:gap-6 max-[520px]:px-3">
           <VerticalEqSlider
             :model-value="equalizerLow"
             :min="eqMin"
@@ -56,11 +56,11 @@
         </div>
       </section>
 
-      <div class="effects-panel__fx-list">
-        <section class="effects-panel__card effects-panel__fx-card" aria-label="Delay">
-          <div class="effects-panel__fx-copy">
-            <h3 class="effects-panel__card-title">Delay</h3>
-            <div class="effects-panel__knob-row">
+      <div class="flex flex-col gap-4">
+        <section class="flex items-center justify-between rounded-[32px] border border-[rgb(var(--v-theme-border))] bg-[rgb(var(--v-theme-surface))] p-4 max-[520px]:gap-4" aria-label="Delay">
+          <div class="flex min-w-0 flex-col gap-2">
+            <h3 class="m-0 w-16 text-center text-base font-bold leading-7 tracking-[0.04em] text-[rgb(var(--v-theme-text-primary))]">Delay</h3>
+            <div class="flex items-center gap-4">
               <ControlKnob
                 :model-value="delayAmount"
                 :min="delayMin"
@@ -69,7 +69,7 @@
                 size="medium"
                 @update:model-value="emit('update:delayAmount', $event)"
               />
-              <span class="effects-panel__value">{{ delayText }}</span>
+              <span class="text-base font-bold leading-7 tracking-[0.04em] text-[rgb(var(--v-theme-accent))]">{{ delayText }}</span>
             </div>
           </div>
           <EffectSwitch
@@ -78,10 +78,10 @@
           />
         </section>
 
-        <section class="effects-panel__card effects-panel__fx-card" aria-label="Reverb">
-          <div class="effects-panel__fx-copy">
-            <h3 class="effects-panel__card-title">Reverb</h3>
-            <div class="effects-panel__knob-row">
+        <section class="flex items-center justify-between rounded-[32px] border border-[rgb(var(--v-theme-border))] bg-[rgb(var(--v-theme-surface))] p-4 max-[520px]:gap-4" aria-label="Reverb">
+          <div class="flex min-w-0 flex-col gap-2">
+            <h3 class="m-0 w-16 text-center text-base font-bold leading-7 tracking-[0.04em] text-[rgb(var(--v-theme-text-primary))]">Reverb</h3>
+            <div class="flex items-center gap-4">
               <ControlKnob
                 :model-value="reverbAmount"
                 :min="reverbMin"
@@ -90,7 +90,7 @@
                 size="medium"
                 @update:model-value="emit('update:reverbAmount', $event)"
               />
-              <span class="effects-panel__value">{{ reverbText }}</span>
+              <span class="text-base font-bold leading-7 tracking-[0.04em] text-[rgb(var(--v-theme-accent))]">{{ reverbText }}</span>
             </div>
           </div>
           <EffectSwitch
@@ -166,129 +166,3 @@ const emit = defineEmits<{
 const delayText = computed(() => props.delayDisplay ?? `${props.delayAmount}ms`)
 const reverbText = computed(() => props.reverbDisplay ?? `${props.reverbAmount}%`)
 </script>
-
-<style scoped>
-.effects-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: 100%;
-  padding: 24px;
-  background: #F1EDE9;
-  border-radius: 32px;
-  box-shadow: 0 4px 20px 0 rgba(67, 56, 20, 0.08);
-}
-
-.effects-panel__header,
-.effects-panel__card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.effects-panel__title,
-.effects-panel__card-title {
-  margin: 0;
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 16px;
-  line-height: 28px;
-  color: #1C1917;
-}
-
-.effects-panel__title {
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-
-.effects-panel__card-title {
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-align: center;
-  width: 64px;
-}
-
-.effects-panel__card-title--eq {
-  text-align: left;
-  width: auto;
-}
-
-.effects-panel__icon {
-  width: 22px;
-  height: 22px;
-}
-
-.effects-panel__stack,
-.effects-panel__fx-list,
-.effects-panel__fx-copy {
-  display: flex;
-  flex-direction: column;
-}
-
-.effects-panel__stack,
-.effects-panel__fx-list {
-  gap: 16px;
-}
-
-.effects-panel__card {
-  background: #FDF9F4;
-  border: 1px solid #E0DFD5;
-  border-radius: 32px;
-}
-
-.effects-panel__card--eq {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 16px;
-}
-
-.effects-panel__eq-body {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 54px;
-  padding: 8px 27px;
-}
-
-.effects-panel__fx-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-}
-
-.effects-panel__fx-copy {
-  gap: 8px;
-  min-width: 0;
-}
-
-.effects-panel__knob-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.effects-panel__value {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 28px;
-  letter-spacing: 0.04em;
-  color: #606042;
-}
-
-@media (max-width: 520px) {
-  .effects-panel {
-    padding: 20px;
-  }
-
-  .effects-panel__eq-body {
-    gap: 24px;
-    padding: 8px 12px;
-  }
-
-  .effects-panel__fx-card {
-    gap: 16px;
-  }
-}
-</style>

@@ -1,17 +1,17 @@
 <template>
-  <div class="horizontal-eq-slider">
-    <div class="horizontal-eq-slider__label-row">
-      <span class="horizontal-eq-slider__label">MASTER VOLUME</span>
-      <span class="horizontal-eq-slider__percent-label">{{ percentLabel }}</span>
+  <div class="flex w-full flex-col items-start gap-2">
+    <div class="flex w-full items-center justify-between">
+      <span class="text-left text-base font-bold leading-7 tracking-[0.05em] text-[rgb(var(--v-theme-text-secondary))]">MASTER VOLUME</span>
+      <span class="text-right text-base font-bold leading-7 tracking-[0.04em] text-[rgb(var(--v-theme-accent))]">{{ percentLabel }}</span>
     </div>
-    <div class="horizontal-eq-slider__input">
+    <div class="relative flex h-3 w-full items-center justify-center rounded-full bg-[rgb(var(--v-theme-primary))]">
       <input
         type="range"
         :min="min"
         :max="max"
         :step="step"
         v-model.number="proxyValue"
-        class="horizontal-eq-slider__range"
+        class="horizontal-eq-slider__range absolute left-1/2 top-1/2 h-2 w-[calc(100%-10px)] -translate-x-1/2 -translate-y-1/2 appearance-none bg-transparent accent-[rgb(var(--v-theme-primary))]"
         :aria-label="label"
       />
     </div>
@@ -44,58 +44,8 @@ const percentLabel = computed(() => {
 </script>
 
 <style scoped>
-.horizontal-eq-slider {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  width: 310px;
-}
-.horizontal-eq-slider__label-row {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.horizontal-eq-slider__percent-label {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 28px;
-  letter-spacing: 0.04em;
-  color: #606042;
-  text-align: right;
-}
-.horizontal-eq-slider__label {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 28px;
-  letter-spacing: 0.05em;
-  color: #66635F;
-  text-align: left;
-}
-.horizontal-eq-slider__input {
-  position: relative;
-  width: 310px;
-  height: 12px;
-  background: #E6E5BF;
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .horizontal-eq-slider__range {
   -webkit-appearance: none;
-  appearance: none;
-  width: 300px;
-  height: 8px;
-  background: transparent;
-  accent-color: #E6E5BF;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
 }
 /* ノブの色をprimaryに、中央配置 */
 .horizontal-eq-slider__range::-webkit-slider-thumb {

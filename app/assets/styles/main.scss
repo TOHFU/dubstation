@@ -1,4 +1,14 @@
 
+html,
+body,
+#__nuxt {
+  font-family: var(--font-body);
+}
+
+.dialog-card-base {
+  border: 1px solid rgb(var(--v-theme-border));
+}
+
 code, pre, .v-code {
   font-family: var(--font-mono);
 }

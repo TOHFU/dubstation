@@ -1,8 +1,8 @@
 <template>
-  <div class="radio-display-section">
+  <div class="radio-display-section relative mx-auto flex w-full max-w-[400px] flex-col items-center gap-3 overflow-hidden rounded-[32px] bg-[#C9C9A4] p-6 shadow-[inset_0px_4px_8px_4px_rgba(0,0,0,0.2),0_0_0_4px_rgba(28,25,23,0.1)]">
     <button
-      class="radio-display-section__status"
-      :class="{ 'radio-display-section__status--active': props.isPlaying }"
+      class="mb-2 flex cursor-pointer items-center gap-2 rounded-full border-none bg-[rgb(var(--v-theme-surface))] px-4 py-1 pl-2 text-xs font-bold text-[rgb(var(--v-theme-text-disabled))]"
+      :class="{ 'text-[rgb(var(--v-theme-text-primary))]': props.isPlaying }"
       type="button"
       @click="$emit('toggle-live')"
     >
@@ -10,21 +10,21 @@
         v-if="props.isPlaying"
         :src="liveBroadcastingIcon"
         alt="live"
-        class="radio-display-section__status-icon"
+        class="inline-block h-[18px] w-[18px]"
       />
-      <span v-else class="radio-display-section__status-dot" aria-hidden="true" />
+      <span v-else class="inline-block h-[18px] w-[18px] rounded-full bg-[rgb(var(--v-theme-text-disabled))]" aria-hidden="true" />
       <span>LIVE BROADCASTING</span>
     </button>
-    <div v-if="songName" class="radio-display-section__song">{{ songName }}</div>
-    <div v-if="artistName" class="radio-display-section__artist">{{ artistName }}</div>
+    <div v-if="songName" class="mb-[2px] text-center text-2xl font-black tracking-[-0.05em] text-[rgb(var(--v-theme-text-primary))]" style="font-family: var(--font-heading)">{{ songName }}</div>
+    <div v-if="artistName" class="mb-[2px] text-center text-base font-bold text-[rgb(var(--v-theme-accent))]">{{ artistName }}</div>
     <button
-      class="radio-display-section__station"
+      class="mb-2 cursor-pointer rounded-full border-none bg-[rgb(var(--v-theme-surface))] px-4 py-[2px] text-center text-sm font-bold text-[rgb(var(--v-theme-text-primary))]"
       type="button"
       @click="$emit('change-station')"
     >
       {{ stationName }}
     </button>
-    <div class="radio-display-section__knob-row">
+    <div class="z-[1] mt-4 flex flex-col items-center justify-center gap-6">
       <ControlKnob
         v-model="volume"
         :min="0"
@@ -60,22 +60,7 @@ watch(volume, v => emit('update:modelValue', v))
 </script>
 
 <style scoped>
-  .radio-display-section {
-    background: #C9C9A4;
-    border-radius: 32px;
-    box-shadow: inset 0px 4px 8px 4px rgba(0,0,0,0.2), 0 0 0 4px rgba(28,25,23,0.1);
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    overflow: hidden;
-  }
-  .radio-display-section::before {
+.radio-display-section::before {
     content: '';
     position: absolute;
     inset: 4px;
@@ -86,72 +71,5 @@ watch(volume, v => emit('update:modelValue', v))
     background-size: auto;
     pointer-events: none;
     border-radius: 28px;
-  }
-.radio-display-section__status {
-  background: #F5F5E6;
-  border: none;
-  border-radius: 9999px;
-  color: #A6A67A;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 4px 16px 4px 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  cursor: pointer;
-}
-.radio-display-section__status--active {
-  color: #292524;
-}
-.radio-display-section__status-icon {
-  width: 18px;
-  height: 18px;
-  display: inline-block;
-}
-.radio-display-section__status-dot {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #A6A67A;
-  display: inline-block;
-}
-.radio-display-section__song {
-  font-family: var(--font-heading);
-  font-size: 24px;
-  font-weight: 900;
-  color: #1C1917;
-  letter-spacing: -0.05em;
-  margin-bottom: 2px;
-  text-align: center;
-}
-.radio-display-section__artist {
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 700;
-  color: #606042;
-  margin-bottom: 2px;
-  text-align: center;
-}
-.radio-display-section__station {
-  background: #F5F5E6;
-  border: none;
-  border-radius: 9999px;
-  color: #292524;
-  font-size: 14px;
-  font-weight: 700;
-  padding: 2px 16px;
-  margin-bottom: 8px;
-  text-align: center;
-  cursor: pointer;
-}
-.radio-display-section__knob-row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  margin-top: 16px;
-  justify-content: center;
-  z-index: 1;
 }
 </style>
