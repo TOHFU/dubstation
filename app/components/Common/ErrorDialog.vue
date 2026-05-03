@@ -30,7 +30,7 @@
   </v-dialog>
 </template>
 <script setup lang="ts">
-import iconError from '../../assets/icons/icon-error.svg'
+import iconError from '~/assets/icons/icon-error.svg'
 
 const modelValue = defineModel<boolean>({ required: true })
 
