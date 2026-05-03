@@ -39,8 +39,9 @@
 </template>
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import knobLarge from '~/assets/icons/knob-large.svg'
-import knobMedium from '~/assets/icons/knob-medium.svg'
+
+const knobLarge = '/assets/image/knob-large.svg'
+const knobMedium = '/assets/image/knob-medium.svg'
 
 const props = defineProps<{
   modelValue: number
