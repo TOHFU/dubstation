@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen flex flex-col bg-[#FDFCF5]">
+  <div class="h-screen flex flex-col bg-[rgb(var(--v-theme-background))]">
     <AppBar>
       <span class="text-lg font-bold">DUB STATION</span>
     </AppBar>

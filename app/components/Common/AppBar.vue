@@ -1,13 +1,13 @@
 <template>
-  <header class="app-bar">
-    <div class="app-bar__content">
-      <div v-if="$slots.leading" class="app-bar__leading">
+  <header class="relative flex h-16 items-center bg-[rgb(var(--v-theme-primary))] px-6 shadow-[0px_4px_20px_0px_rgba(67,56,20,0.08)] rounded-b-[24px]">
+    <div class="flex w-full items-center gap-3">
+      <div v-if="$slots.leading" class="flex items-center justify-center">
         <slot name="leading" />
       </div>
-      <span class="app-bar__title">
+      <span class="text-left align-middle text-2xl font-black uppercase tracking-[-0.05em] leading-8 text-[rgb(var(--v-theme-text-primary))]" style="font-family: var(--font-heading)">
         <slot />
       </span>
-      <div v-if="$slots.actions" class="app-bar__actions">
+      <div v-if="$slots.actions" class="ml-auto flex items-center">
         <slot name="actions" />
       </div>
     </div>
@@ -17,43 +17,3 @@
 <script setup lang="ts">
 // 共通AppBar。タイトルやアクションはスロットで差し替え
 </script>
-
-<style scoped>
-.app-bar {
-  border-radius: 0 0 24px 24px;
-  box-shadow: 0px 4px 20px 0px rgba(67, 56, 20, 0.08);
-  height: 64px;
-  background: #E6E5BF;
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-  position: relative;
-}
-.app-bar__content {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.app-bar__leading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.app-bar__title {
-  font-family: var(--font-heading);
-  font-weight: 900;
-  font-size: 24px;
-  line-height: 32px;
-  letter-spacing: -0.05em;
-  color: #1C1917;
-  text-transform: uppercase;
-  text-align: left;
-  vertical-align: middle;
-}
-.app-bar__actions {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-}
-</style>

@@ -3,6 +3,9 @@ export const dubStationTheme = {
   colors: {
     primary: '#E6E5BF',
     'primary-darken-1': '#D1D0AA',
+    accent: '#606042',
+    muted: '#66635F',
+    soft: '#FDFCF5',
     background: '#FDFCF5',
     surface: '#FFFFFF',
     error: '#FF6B6B',
