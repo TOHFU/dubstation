@@ -25,6 +25,10 @@
       :step="step"
       v-model.number="proxyValue"
       :aria-label="label"
+      :class="{ 'is-touching': isTouching }"
+      @touchstart.passive="onTouchStart"
+      @touchend="onTouchEnd"
+      @touchcancel="onTouchEnd"
     />
     <span v-if="label" class="control-knob__label">{{ label }}</span>
   </div>
@@ -53,6 +57,10 @@ const label = computed(() => props.label ?? '')
 const proxyValue = ref(props.modelValue)
 watch(() => props.modelValue, v => { proxyValue.value = v })
 watch(proxyValue, v => emit('update:modelValue', v))
+
+const isTouching = ref(false)
+function onTouchStart() { isTouching.value = true }
+function onTouchEnd() { isTouching.value = false }
 
 // ノブの回転角度（例: 135deg〜405degの範囲で回す）
 const angle = computed(() => {
@@ -114,6 +122,10 @@ function onKeydown(e: KeyboardEvent) {
   cursor: pointer;
   border: 0;
   outline: none;
+  touch-action: pan-y;
+}
+.control-knob__slider.is-touching {
+  touch-action: none;
 }
 .control-knob__label {
   margin-top: 8px;
