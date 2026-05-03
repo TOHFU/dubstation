@@ -46,6 +46,7 @@ const percentLabel = computed(() => {
 <style scoped>
 .horizontal-eq-slider__range {
   -webkit-appearance: none;
+  appearance: none;
 }
 /* ノブの色をprimaryに、中央配置 */
 .horizontal-eq-slider__range::-webkit-slider-thumb {
