@@ -62,8 +62,7 @@
 
 <script setup lang="ts">
 import AppBar from '../components/Common/AppBar.vue'
+import { useAboutPage } from '../composables/pages/useAboutPage'
 
-function goBack() {
-  void navigateTo('/')
-}
+const { goBack } = useAboutPage()
 </script>
