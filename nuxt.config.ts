@@ -16,7 +16,21 @@ export default defineNuxtConfig({
 
   app: {
     head: {
+      meta: [
+        {
+          name: 'theme-color',
+          content: 'rgb(230, 229, 191)',
+        },
+      ],
       link: [
+        {
+          rel: 'manifest',
+          href: '/manifest.webmanifest',
+        },
+        {
+          rel: 'apple-touch-icon',
+          href: '/assets/pwa/app-icon-192.png',
+        },
         {
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;900&family=Quicksand:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap',
@@ -31,6 +45,7 @@ export default defineNuxtConfig({
   css: [
     'assets/styles/layers.css',
     'vuetify/styles',
+    'assets/styles/main.scss',
     'assets/styles/tailwind.css',
   ],
 
@@ -39,6 +54,24 @@ export default defineNuxtConfig({
       styles: { configFile: 'assets/styles/settings.scss' },
     },
     vuetifyOptions: {
+      defaults: {
+        VBtn: {
+          rounded: 'xl',
+          height: 56,
+        },
+        VDialog: {
+          persistent: true,
+          VCard: {
+            color: 'surface',
+            rounded: 'xl',
+            class: 'dialog-card-base',
+          },
+        },
+        VProgressLinear: {
+          rounded: true,
+          height: 6,
+        },
+      },
       theme: {
         defaultTheme: 'dubStationTheme',
         utilities: false,

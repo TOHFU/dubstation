@@ -1,14 +1,14 @@
 <template>
-  <div class="about-page">
+  <div class="flex min-h-dvh flex-col bg-[rgb(var(--v-theme-background))]">
     <AppBar>
       <template #leading>
         <button
-          class="about-page__back-button"
+          class="inline-flex h-10 w-10 cursor-pointer items-center justify-center border-none bg-transparent p-0"
           type="button"
           aria-label="Back to player"
           @click="goBack"
         >
-          <span class="material-symbols-rounded about-page__back-icon" aria-hidden="true">
+          <span class="material-symbols-rounded text-2xl leading-none" aria-hidden="true">
             arrow_back
           </span>
         </button>
@@ -16,46 +16,46 @@
       About
     </AppBar>
 
-    <main class="about-page__main">
-      <section class="about-page__branding" aria-label="App Branding">
+    <main class="flex flex-1 flex-col items-center px-4 py-8">
+      <section class="flex flex-col items-center gap-4 pb-8" aria-label="App Branding">
         <img
           src="/assets/image/lion.png"
           alt="DUB STATION logo"
-          class="about-page__branding-logo"
+          class="block w-24 h-auto"
         />
-        <h2 class="about-page__branding-title">DUB STATION</h2>
+        <h2 class="m-0 font-heading text-4xl font-bold uppercase leading-[44px] tracking-[-0.05em] text-[rgb(var(--v-theme-text-primary))]">DUB STATION</h2>
       </section>
 
-      <section class="about-page__card" aria-label="About Description">
-        <div class="about-page__card-container">
-          <p>
+      <section class="w-full max-w-[358px] box-border rounded-[32px] bg-white p-8 shadow-[0px_4px_20px_0px_rgba(67,56,20,0.06)]" aria-label="About Description">
+        <div class="flex flex-col items-center gap-6">
+          <p class="m-0 text-center text-base font-normal leading-[26px] tracking-[0.04em] text-[rgb(var(--v-theme-text-primary))]">
             このアプリはネットラジオをストリーミングし、リアルタイムにエフェクトをかけることができるWebアプリです。ブラウザベースで動きますが、ホーム画面に追加していただくことで、より快適にご利用いただけます。
           </p>
-          <p>
+          <p class="m-0 text-center text-base font-normal leading-[26px] tracking-[0.04em] text-[rgb(var(--v-theme-text-primary))]">
             このアプリは個人開発のもと、無料で提供しています。
           </p>
 
-          <div class="about-page__separator" />
+          <div class="mt-[-8px] w-full border-t border-[rgba(224,223,213,0.5)] pt-4" />
 
-          <p class="about-page__muted">サウンド：OtoLogic</p>
+          <p class="m-0 text-center text-base font-normal leading-[26px] tracking-[0.04em] text-[rgb(var(--v-theme-text-secondary))]">サウンド：OtoLogic</p>
 
-          <div class="about-page__footer">
+          <div class="flex flex-col items-center gap-2 pt-2">
             <a
               href="https://tohfu-tronica.netlify.app"
               target="_blank"
               rel="noopener noreferrer"
-              class="about-page__link"
+              class="text-base font-bold leading-[26px] tracking-[0.04em] text-[rgb(var(--v-theme-accent))] underline [text-underline-offset:3px]"
             >
               tohfu-tronica.netlify.app
             </a>
-            <p class="about-page__copyright">© tohfu-tronica</p>
+            <p class="m-0 text-xs font-medium leading-4 tracking-[0.04em] text-[rgb(var(--v-theme-text-disabled))]">© tohfu-tronica</p>
           </div>
         </div>
       </section>
     </main>
 
-    <footer class="about-page__version-wrap">
-      <p class="about-page__version">Version 1.0.4 (Stable)</p>
+    <footer class="flex justify-center py-6">
+      <p class="m-0 text-xs font-normal leading-4 tracking-[0.04em] text-[rgb(var(--v-theme-text-disabled))]">Version 1.0.4 (Stable)</p>
     </footer>
   </div>
 </template>
@@ -67,146 +67,3 @@ function goBack() {
   void navigateTo('/')
 }
 </script>
-
-<style scoped>
-.about-page {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  background: #fdfcf5;
-}
-
-.about-page__back-button {
-  width: 40px;
-  height: 40px;
-  border: none;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.about-page__back-icon {
-  font-size: 24px;
-  line-height: 1;
-}
-
-.about-page__main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 32px 16px;
-}
-
-.about-page__branding {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding-bottom: 32px;
-}
-
-.about-page__branding-logo {
-  width: 96px;
-  height: auto;
-  display: block;
-}
-
-.about-page__branding-title {
-  margin: 0;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 36px;
-  line-height: 44px;
-  letter-spacing: -0.05em;
-  color: #1c1917;
-  text-transform: uppercase;
-}
-
-.about-page__card {
-  width: 100%;
-  max-width: 358px;
-  border-radius: 32px;
-  background: #fff;
-  box-shadow: 0px 4px 20px 0px rgba(67, 56, 20, 0.06);
-  padding: 32px;
-  box-sizing: border-box;
-}
-
-.about-page__card-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-}
-
-.about-page__card-container p {
-  margin: 0;
-  font-family: 'Noto Sans JP', sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 26px;
-  letter-spacing: 0.04em;
-  color: #33312e;
-  text-align: center;
-}
-
-.about-page__separator {
-  width: 100%;
-  border-top: 1px solid rgba(224, 223, 213, 0.5);
-  margin-top: -8px;
-  padding-top: 16px;
-}
-
-.about-page__card-container .about-page__muted {
-  color: #66635f;
-}
-
-.about-page__footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding-top: 8px;
-}
-
-.about-page__link {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 26px;
-  letter-spacing: 0.04em;
-  color: #606042;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.about-page__copyright {
-  margin: 0;
-  font-family: 'Noto Sans JP', sans-serif;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: 0.04em;
-  color: #999691;
-}
-
-.about-page__version-wrap {
-  display: flex;
-  justify-content: center;
-  padding: 24px 0;
-}
-
-.about-page__version {
-  margin: 0;
-  font-family: 'Noto Sans JP', sans-serif;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: 0.04em;
-  color: #999691;
-}
-</style>

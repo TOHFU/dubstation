@@ -1,101 +1,23 @@
 <template>
   <div
-    class="station-list-item"
-    :class="{ 'station-list-item--selected': selected }"
+    class="box-border flex min-h-[116px] cursor-pointer items-center justify-between rounded-[32px] border-2 border-transparent bg-white p-6 transition-[box-shadow,border]"
+    :class="{ 'border-[rgb(var(--v-theme-accent))] shadow-[0px_4px_20px_0px_rgba(67,56,20,0.12),0px_0px_0px_4px_rgba(230,229,191,0.3)]': selected }"
     @click="$emit('select')"
   >
-    <div class="station-list-item__thumbnail">
-      <img src="/assets/image/lion.png" alt="station thumbnail" />
+    <div class="flex h-16 w-[50px] shrink-0 items-center justify-center overflow-hidden rounded-[32px] bg-[rgb(var(--v-theme-border))]">
+      <img class="block h-full w-full object-cover" src="/assets/image/lion.png" alt="station thumbnail" />
     </div>
-    <div class="station-list-item__content">
-      <div class="station-list-item__title">{{ station.name }}</div>
-      <div class="station-list-item__about">{{ station.about }}</div>
+    <div class="ml-4 mr-2 flex min-w-0 flex-1 flex-col gap-1">
+      <div class="text-base font-normal leading-6 text-[rgb(var(--v-theme-text-primary))]">{{ station.name }}</div>
+      <div class="text-xs font-normal leading-4 tracking-[0.04em] text-[rgb(var(--v-theme-text-secondary))]">{{ station.about }}</div>
     </div>
-    <button class="station-list-item__right-icon" type="button" aria-label="Select station">
-      <span class="material-symbols-rounded station-list-item__play-icon" aria-hidden="true">
+    <button class="flex h-10 w-8 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent p-0" type="button" aria-label="Select station">
+      <span class="material-symbols-rounded text-[32px] leading-none text-[rgb(var(--v-theme-accent))]" aria-hidden="true">
         play_circle
       </span>
     </button>
   </div>
 </template>
-<style scoped>
-.station-list-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  background: #FFFFFF;
-  border-radius: 32px;
-  padding: 24px;
-  cursor: pointer;
-  transition: box-shadow 0.2s, border 0.2s;
-  border: 2px solid transparent;
-  min-height: 116px;
-  box-sizing: border-box;
-}
-.station-list-item--selected {
-  border: 2px solid #606042;
-  box-shadow: 0px 4px 20px 0px rgba(67, 56, 20, 0.12), 0px 0px 0px 4px rgba(230, 229, 191, 0.3);
-}
-.station-list-item__thumbnail {
-  flex: 0 0 50px;
-  width: 50px;
-  height: 64px;
-  border-radius: 32px;
-  overflow: hidden;
-  background: #E0DFD5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.station-list-item__thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.station-list-item__content {
-  flex: 1 1 auto;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-left: 16px;
-  margin-right: 8px;
-}
-.station-list-item__title {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  color: #33312E;
-}
-.station-list-item__about {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: 0.04em;
-  color: #66635F;
-}
-.station-list-item__right-icon {
-  flex: 0 0 32px;
-  width: 32px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-.station-list-item__play-icon {
-  font-size: 32px;
-  line-height: 1;
-  color: #606042;
-}
-</style>
 <script setup lang="ts">
 defineProps<{
   station: { id: string; name: string; about: string }

@@ -1,7 +1,6 @@
 <template>
   <div
-    class="control-knob"
-    :class="[`control-knob--${size}`]"
+    class="relative flex select-none flex-col items-center justify-center outline-none"
     tabindex="0"
     role="slider"
     :aria-valuenow="modelValue"
@@ -9,9 +8,14 @@
     :aria-valuemax="max"
     @keydown="onKeydown"
   >
-    <div class="control-knob__svg-wrap">
+    <div
+      class="flex items-center justify-center rounded-full shadow-[0_8px_24px_0_rgba(67,56,20,0.18)]"
+      :class="{ 'bg-[rgb(var(--v-theme-primary))]': size === 'medium' }"
+    >
       <img
         :src="size === 'large' ? knobLarge : knobMedium"
+        class="block border-0 outline-none"
+        :class="size === 'large' ? 'h-24 w-24' : 'h-16 w-16'"
         :style="{ transform: `rotate(${angle}deg)` }"
         alt="knob"
         draggable="false"
@@ -19,7 +23,7 @@
     </div>
     <input
       type="range"
-      class="control-knob__slider"
+      class="absolute left-0 top-0 h-full w-full cursor-pointer border-0 opacity-0 outline-none touch-pan-y"
       :min="min"
       :max="max"
       :step="step"
@@ -30,7 +34,7 @@
       @touchend="onTouchEnd"
       @touchcancel="onTouchEnd"
     />
-    <span v-if="label" class="control-knob__label">{{ label }}</span>
+    <span v-if="label" class="mt-2 text-sm font-bold text-[rgb(var(--v-theme-accent))]">{{ label }}</span>
   </div>
 </template>
 <script setup lang="ts">
@@ -80,57 +84,7 @@ function onKeydown(e: KeyboardEvent) {
 }
 </script>
 <style scoped>
-.control-knob {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  outline: none;
-  user-select: none;
-}
-.control-knob__svg-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  box-shadow: 0 8px 24px 0 rgba(67, 56, 20, 0.18);
-}
-.control-knob__svg-wrap img {
-  display: block;
-  border: 0;
-  outline: none;
-}
-.control-knob--large .control-knob__svg-wrap img {
-  width: 96px;
-  height: 96px;
-}
-.control-knob--medium .control-knob__svg-wrap {
-  background: #E6E5BF;
-}
-.control-knob--medium .control-knob__svg-wrap img {
-  width: 64px;
-  height: 64px;
-}
-.control-knob__slider {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
-  border: 0;
-  outline: none;
-  touch-action: pan-y;
-}
-.control-knob__slider.is-touching {
+.is-touching {
   touch-action: none;
-}
-.control-knob__label {
-  margin-top: 8px;
-  font-size: 14px;
-  color: #606042;
-  font-weight: 700;
 }
 </style>

@@ -1,17 +1,17 @@
 <template>
   <button
-    class="effect-switch"
+    class="inline-flex cursor-pointer items-center p-0 outline-none"
     :aria-pressed="modelValue"
     @click="toggle"
     type="button"
   >
     <span
-      class="effect-switch__track"
-      :class="{ 'effect-switch__track--on': modelValue }"
+      class="relative flex h-6 w-11 items-center rounded-xl bg-[rgb(var(--v-theme-border))] transition-colors duration-200"
+      :class="{ '!bg-[rgb(var(--v-theme-success))]': modelValue }"
     >
       <span
-        class="effect-switch__knob"
-        :class="{ 'effect-switch__knob--on': modelValue }"
+        class="absolute left-[2px] top-[2px] h-5 w-5 rounded-full bg-white shadow-[0_1px_4px_rgba(0,0,0,0.12)] transition-all duration-200"
+        :class="{ '!left-[22px]': modelValue }"
       />
     </span>
   </button>
@@ -24,42 +24,3 @@ const props = defineProps<{
 const emit = defineEmits(['update:modelValue'])
 const toggle = () => emit('update:modelValue', !props.modelValue)
 </script>
-
-<style scoped>
-.effect-switch {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  outline: none;
-}
-.effect-switch__track {
-  width: 44px;
-  height: 24px;
-  border-radius: 12px;
-  background: #E0E0E0;
-  display: flex;
-  align-items: center;
-  position: relative;
-  transition: background 0.2s cubic-bezier(.4,0,.2,1);
-}
-.effect-switch__track--on {
-  background: #06D6A0;
-}
-.effect-switch__knob {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
-  position: absolute;
-  left: 2px;
-  top: 2px;
-  transition: left 0.2s cubic-bezier(.4,0,.2,1);
-}
-.effect-switch__knob--on {
-  left: 22px;
-}
-</style>

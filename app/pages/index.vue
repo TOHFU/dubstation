@@ -1,11 +1,11 @@
 <template>
-  <div class="page-root">
+  <div class="flex min-h-dvh flex-col bg-[rgb(var(--v-theme-background))]">
     <!-- ローディング -->
-    <div v-if="isLoading" class="overlay">
-      <div class="overlay__content">
+    <div v-if="isLoading" class="fixed inset-0 z-[100] grid bg-[rgb(var(--v-theme-background))] [grid-template-rows:1fr_auto]">
+      <div class="flex items-center justify-center">
         <LoadingSpinner />
       </div>
-      <div class="overlay__actions">
+      <div class="flex justify-center px-4 pb-8">
         <SecondaryButton @click="onLoadingBack">BACK</SecondaryButton>
       </div>
     </div>
@@ -32,7 +32,7 @@
         DUB STATION
         <template #actions>
           <button
-            class="help-button"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-full border-none bg-transparent text-[rgb(var(--v-theme-text-primary))] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--v-theme-accent))]"
             type="button"
             aria-label="About"
             @click="onGoAbout"
@@ -43,7 +43,7 @@
       </AppBar>
 
       <!-- メインコンテンツ -->
-      <main class="main">
+      <main class="box-border flex w-full flex-1 flex-col items-center gap-6 px-4 pb-10 pt-6">
         <!-- ラジオ表示セクション -->
         <RadioDisplaySection
           :song-name="displaySongName"
@@ -56,9 +56,9 @@
         />
 
         <!-- 効果音ボタン -->
-        <div class="effect-buttons-section">
-          <p class="effect-buttons-section__label">One Shot FX</p>
-          <div class="effect-buttons">
+        <div>
+          <p class="font-bold">One Shot FX</p>
+          <div class="mt-4 flex w-full max-w-[358px] justify-center gap-4">
             <EffectButton
               color="siren"
               @press-start="onStartSiren"
@@ -396,87 +396,3 @@ onBeforeUnmount(() => {
   audioEffects.dispose()
 })
 </script>
-
-<style scoped>
-.page-root {
-  min-height: 100dvh;
-  background: #fdfcf5;
-  display: flex;
-  flex-direction: column;
-}
-
-.overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: #fdfcf5;
-  display: grid;
-  grid-template-rows: 1fr auto;
-}
-
-.overlay__content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.overlay__actions {
-  display: flex;
-  justify-content: center;
-  padding: 0 16px 32px;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  padding: 24px 16px 40px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.effect-buttons {
-  display: flex;
-  gap: 16px;
-  width: 100%;
-  max-width: 358px;
-  justify-content: center;
-  margin-top: 16px;
-}
-
-.effect-buttons-section__label {
-  font-weight: 700;
-}
-
-.help-button {
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 999px;
-  background: transparent;
-  color: #1c1917;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.help-button:focus-visible {
-  outline: 2px solid #606042;
-  outline-offset: 2px;
-}
-</style>

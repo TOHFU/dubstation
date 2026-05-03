@@ -1,18 +1,18 @@
 <template>
-  <div class="vertical-eq-slider">
-    <div class="vertical-eq-slider__input">
+  <div class="flex flex-col items-center gap-2">
+    <div class="relative flex h-[100px] w-3 items-center justify-center overflow-visible rounded-full bg-[rgb(var(--v-theme-primary))] [overscroll-behavior:contain]">
       <input
         type="range"
         :min="min"
         :max="max"
         :step="step"
         v-model.number="proxyValue"
-        class="vertical-eq-slider__range"
+        class="vertical-eq-slider__range absolute h-2 w-[90px] -rotate-90 appearance-none bg-transparent accent-[rgb(var(--v-theme-primary))] [touch-action:none] [transform-origin:center]"
         :aria-label="label"
         @wheel.prevent
       />
     </div>
-    <div class="vertical-eq-slider__label">{{ label }}</div>
+    <div class="text-center text-base font-bold leading-7 tracking-[0.04em] text-[rgb(var(--v-theme-text-secondary))]">{{ label }}</div>
   </div>
 </template>
 
@@ -36,36 +36,8 @@ watch(proxyValue, v => emit('update:modelValue', v))
 </script>
 
 <style scoped>
-.vertical-eq-slider {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-.vertical-eq-slider__input {
-  width: 12px;
-  height: 100px;
-  background: #E6E5BF;
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: visible;
-  overscroll-behavior: contain;
-}
 .vertical-eq-slider__range {
   -webkit-appearance: none;
-  appearance: none;
-  width: 90px;
-  height: 8px;
-  background: transparent;
-  position: absolute;
-  transform: rotate(-90deg);
-  transform-origin: center;
-  accent-color: #E6E5BF;
-  cursor: pointer;
-  touch-action: none;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -110,14 +82,5 @@ watch(proxyValue, v => emit('update:modelValue', v))
 }
 .vertical-eq-slider__range:focus::-ms-thumb {
   outline: 2px solid #06D6A0;
-}
-.vertical-eq-slider__label {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 28px;
-  letter-spacing: 0.04em;
-  color: #66635F;
-  text-align: center;
 }
 </style>
