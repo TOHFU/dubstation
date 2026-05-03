@@ -31,9 +31,10 @@
 <script setup lang="ts">
 // Figmaデザイン準拠 効果音ボタン
 import { computed } from 'vue'
-import iconSiren from '~/assets/icons/icon-siren.svg'
-import iconBeam1 from '~/assets/icons/icon-beam1.svg'
-import iconBeam2 from '~/assets/icons/icon-beam2.svg'
+
+const iconSiren = '/assets/image/icon-siren.svg'
+const iconBeam1 = '/assets/image/icon-beam1.svg'
+const iconBeam2 = '/assets/image/icon-beam2.svg'
 
 const props = defineProps<{ color?: 'siren' | 'beam1' | 'beam2' }>()
 const emit = defineEmits<{
