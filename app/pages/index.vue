@@ -22,7 +22,19 @@
 
     <template v-if="!isLoading">
       <!-- ヘッダー -->
-      <AppBar>DUB STATION</AppBar>
+      <AppBar>
+        DUB STATION
+        <template #actions>
+          <button
+            class="help-button"
+            type="button"
+            aria-label="About"
+            @click="onGoAbout"
+          >
+            <span class="material-symbols-rounded" aria-hidden="true">help</span>
+          </button>
+        </template>
+      </AppBar>
 
       <!-- メインコンテンツ -->
       <main class="main">
@@ -154,9 +166,9 @@ const equalizerLow = ref(50)
 const equalizerMid = ref(50)
 const equalizerHigh = ref(50)
 const delayEnabled = ref(false)
-const delayAmount = ref(0)
+const delayAmount = ref(500)
 const reverbEnabled = ref(false)
-const reverbAmount = ref(0)
+const reverbAmount = ref(50)
 
 type OneShotFxKey = 'siren' | 'beam1' | 'beam2'
 
@@ -216,6 +228,10 @@ function stopAllOneShotFx() {
 
 function onChangeStation() {
   void navigateTo('/station')
+}
+
+function onGoAbout() {
+  void navigateTo('/about')
 }
 
 async function onToggleLiveBroadcasting() {
@@ -412,5 +428,23 @@ onBeforeUnmount(() => {
 
 .effect-buttons-section__label {
   font-weight: 700;
+}
+
+.help-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #1c1917;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.help-button:focus-visible {
+  outline: 2px solid #606042;
+  outline-offset: 2px;
 }
 </style>
