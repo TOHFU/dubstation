@@ -13,6 +13,12 @@
     <!-- エラーダイアログ -->
     <ErrorDialog v-model="showError" @retry="onRetry" @home="onHome" />
 
+    <SoundPermissionDialog
+      v-model="showSoundPermissionDialog"
+      @allow="onAllowSoundPermission"
+      @later="onLaterSoundPermission"
+    />
+
     <audio
       ref="audioElement"
       class="sr-only"
@@ -101,6 +107,7 @@ import { storeToRefs } from 'pinia'
 import AppBar from '../components/Common/AppBar.vue'
 import ErrorDialog from '../components/Common/ErrorDialog.vue'
 import LoadingSpinner from '../components/Common/LoadingSpinner.vue'
+import SoundPermissionDialog from '../components/Common/SoundPermissionDialog.vue'
 import SecondaryButton from '../components/Common/SecondaryButton.vue'
 import RadioDisplaySection from '../components/Player/RadioDisplaySection.vue'
 import EffectsPanel from '../components/Player/EffectsPanel.vue'
@@ -126,10 +133,12 @@ const {
   playbackState,
   songName,
   artistName,
+  hasOpenedSoundPermissionDialog,
 } = storeToRefs(appStore)
 
 const METADATA_POLLING_INTERVAL_MS = 20000
 let metadataPollingTimer: ReturnType<typeof setInterval> | null = null
+const showSoundPermissionDialog = ref(false)
 
 // ローディング / エラー状態
 const isLoading = computed(() => props.loading || playbackState.value === 'loading')
@@ -293,6 +302,24 @@ function onLoadingBack() {
   void navigateTo('/', { replace: true })
 }
 
+async function onAllowSoundPermission() {
+  showSoundPermissionDialog.value = false
+  appStore.markSoundPermissionDialogOpened()
+
+  const previewAudio = new Audio('/assets/soundfx/radio.mp3')
+
+  try {
+    await previewAudio.play()
+  }
+  catch {
+    // ユーザー操作中でも再生に失敗する場合がある。
+  }
+}
+
+function onLaterSoundPermission() {
+  showSoundPermissionDialog.value = false
+}
+
 function startMetadataPolling() {
   stopMetadataPolling()
 
@@ -345,6 +372,11 @@ watch([
 
 onMounted(async () => {
   appStore.initialize()
+
+  if (!hasOpenedSoundPermissionDialog.value) {
+    showSoundPermissionDialog.value = true
+    appStore.markSoundPermissionDialogOpened()
+  }
 
   await audioEffects.init(audioElement.value)
 
