@@ -4,7 +4,7 @@
       <h2 class="m-0 text-base font-bold leading-7 tracking-[0.04em] text-[rgb(var(--v-theme-text-primary))]">{{ title }}</h2>
       <img
         class="h-[22px] w-[22px]"
-        src="/assets/figma-effects-panel/effects-panel-icon.svg"
+        src="/assets/image/effects-panel-icon.svg"
         alt=""
         aria-hidden="true"
       />

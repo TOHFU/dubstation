@@ -65,7 +65,7 @@ watch(volume, v => emit('update:modelValue', v))
     position: absolute;
     inset: 4px;
     z-index: 0;
-    background-image: url('/assets/figma-radio-display/subtle-noise-texture.png');
+    background-image: url('/assets/image/subtle-noise-texture.png');
     opacity: 0.10;
     background-repeat: repeat;
     background-size: auto;

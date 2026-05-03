@@ -4,7 +4,7 @@
       class="flex flex-col items-center rounded-[48px] border border-[rgb(var(--v-theme-border))] bg-[rgb(var(--v-theme-surface))] p-6 shadow-[0_10px_30px_0_rgba(0,0,0,0.06)]"
     >
       <img
-        src="/assets/figma-sound-permission/sound-permission-graphic.svg"
+        src="/assets/image/sound-permission-graphic.svg"
         alt="Sound Permission"
         class="mb-0 block h-40 w-32"
       />
