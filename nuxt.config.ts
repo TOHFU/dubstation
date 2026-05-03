@@ -29,7 +29,7 @@ export default defineNuxtConfig({
         },
         {
           rel: 'apple-touch-icon',
-          href: '/assets/pwa/app-icon-192.png',
+          href: '/assets/image/app-icon-192.png',
         },
         {
           rel: 'stylesheet',
