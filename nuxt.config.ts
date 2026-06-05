@@ -1,3 +1,5 @@
+import { dubStationTheme } from './app/theme/vuetify.theme'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-12-21',
@@ -12,37 +14,148 @@ export default defineNuxtConfig({
     },
   },
 
+  app: {
+    head: {
+      title: 'DUB STATION',
+      script: [
+        {
+          innerHTML:
+            "(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K7D89HPW');",
+          tagPosition: 'head',
+        },
+      ],
+      noscript: [
+        {
+          innerHTML:
+            '<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K7D89HPW" height="0" width="0" style="display:none;visibility:hidden"></iframe>',
+          tagPosition: 'bodyOpen',
+        },
+      ],
+      meta: [
+        {
+          name: 'theme-color',
+          content: 'rgb(230, 229, 191)',
+        },
+        {
+          property: 'og:title',
+          content: 'DUB STATION',
+        },
+        {
+          property: 'og:description',
+          content: 'ルーツレゲエ・ダブのネットラジオをストリーミングし、エフェクトと効果音をミックスできるPWAアプリ',
+        },
+        {
+          property: 'og:type',
+          content: 'website',
+        },
+        {
+          property: 'og:image',
+          content: '/assets/image/meta-image.png',
+        },
+        {
+          property: 'og:image:width',
+          content: '3840',
+        },
+        {
+          property: 'og:image:height',
+          content: '2160',
+        },
+        {
+          name: 'twitter:card',
+          content: 'summary_large_image',
+        },
+        {
+          name: 'twitter:title',
+          content: 'DUB STATION',
+        },
+        {
+          name: 'twitter:description',
+          content: 'ルーツレゲエ・ダブのネットラジオをストリーミングし、エフェクトと効果音をミックスできるPWAアプリ',
+        },
+        {
+          name: 'twitter:image',
+          content: '/assets/image/meta-image.png',
+        },
+      ],
+      link: [
+        {
+          rel: 'manifest',
+          href: '/manifest.webmanifest',
+        },
+        {
+          rel: 'icon',
+          type: 'image/x-icon',
+          href: '/assets/image/favicon.ico',
+        },
+        {
+          rel: 'apple-touch-icon',
+          href: '/assets/image/app-icon-192.png',
+        },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;900&family=Quicksand:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap',
+        },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0',
+        },
+      ],
+    },
+  },
   css: [
     'assets/styles/layers.css',
     'vuetify/styles',
+    'assets/styles/main.scss',
     'assets/styles/tailwind.css',
   ],
 
   vuetify: {
     moduleOptions: {
       styles: { configFile: 'assets/styles/settings.scss' },
-
-      ssrClientHints: {
-        reloadOnFirstRequest: false,
-        viewportSize: true,
-        prefersColorScheme: true,
-        prefersReducedMotion: true,
-
-        prefersColorSchemeOptions: {
-          useBrowserThemeOnly: false,
-        },
-      },
     },
     vuetifyOptions: {
+      defaults: {
+        VBtn: {
+          rounded: 'xl',
+          height: 56,
+        },
+        VDialog: {
+          persistent: true,
+          VCard: {
+            color: 'surface',
+            rounded: 'xl',
+            class: 'dialog-card-base',
+          },
+        },
+        VProgressLinear: {
+          rounded: true,
+          height: 6,
+        },
+      },
       theme: {
-        // default 'system' requires `ssr: false` to avoid hydration warnings
-        defaultTheme: 'dark',
-
+        defaultTheme: 'dubStationTheme',
         utilities: false,
-
         themes: {
-          light: {},
-          dark: {},
+          dubStationTheme,
+          light: dubStationTheme,
+          dark: {
+            dark: true,
+            colors: {
+              primary: '#E6E5BF',
+              background: '#33312E',
+              surface: '#22211F',
+              error: '#FF6B6B',
+              warning: '#FFD166',
+              success: '#06D6A0',
+              'on-primary': '#FDFCF5',
+              'on-background': '#FDFCF5',
+              'on-surface': '#FDFCF5',
+              'text-primary': '#FDFCF5',
+              'text-secondary': '#E6E5BF',
+              'text-disabled': '#999691',
+              border: '#66635F',
+            },
+          },
         },
       },
       display: {
@@ -64,6 +177,8 @@ export default defineNuxtConfig({
 
   i18n: {
     defaultLocale: 'en',
+    strategy: 'no_prefix',
+    detectBrowserLanguage: false,
     vueI18n: './i18n.config.ts',
   },
 })

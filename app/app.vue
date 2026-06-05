@@ -1,18 +1,16 @@
 <template>
-  <v-app>
+  <v-app @contextmenu.prevent>
     <v-main>
-      <nuxt-page />
+      <nuxt-page :transition="pageTransition" />
     </v-main>
-    <v-btn
-      class="m-2"
-      icon="mdi-theme-light-dark"
-      location="top right"
-      position="absolute"
-      @click="$vuetify.theme.cycle()"
-    />
   </v-app>
 </template>
 
 <script lang="ts" setup>
-  //
+  const route = useRoute()
+
+  const pageTransition = computed(() => ({
+    name: route.path === '/' ? 'page-slide-back' : 'page-slide-forward',
+    mode: 'out-in' as const,
+  }))
 </script>
